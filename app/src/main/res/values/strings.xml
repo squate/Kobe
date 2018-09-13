@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Kobe</string>
+    <string name="disclaimer">
+        Kobe and its employees are not responsible for any damages that arise from thrown phones.
+        By clicking \"accept\", the user agrees that if they throw their phone, it is their choice and their choice alone.
+    </string>
+</resources>
