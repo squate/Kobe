@@ -18,7 +18,5 @@ public class MainActivity extends AppCompatActivity {
     public void acceptDisclaimer(View view) {
         Intent intent = new Intent(this, ARViewActivity.class);
         startActivity(intent);
-        String message = "Accepted!";
-        return;
     }
 }
