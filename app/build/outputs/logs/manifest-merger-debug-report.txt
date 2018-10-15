@@ -1,0 +1,175 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:1-34:12
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:1-34:12
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:1-34:12
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:1-34:12
+MERGED from [com.android.support:appcompat-v7:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-rc02.aar/fdcad2aeb11a9242e08e81fd7109d99f/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/nate/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/37646b9df301218bd91c9b42506bd556/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-fragment:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-rc02.aar/54e6eec8117712076fda193ac8d1ca9f/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0-rc02.aar/edd8598a00f786b1dc80db146ae61e87/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0-rc02.aar/c7d68d5c3a61ff1141c86f309fbd91e8/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0-rc02.aar/4589e09d926a32467e11917d52583b2b/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0-rc02.aar/9b0ecef6f04533258e4a18a56cd31412/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/loader-28.0.0-rc02.aar/d9fe9b795c6d2e378faef1689d15001f/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0-rc02.aar/ab9b0091e9d0c976d3bf6e7adc898ea2/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0-rc02.aar/2b2f4a34d0d6471be21f00f5fac0c11a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0-rc02.aar/028897566739879e0fdc87af5076607a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0-rc02.aar/74e9e5912327789658a09394ed6dd744/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/customview-28.0.0-rc02.aar/282aab608becaad8ab55bb6d56fd9740/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0-rc02.aar/82773e6d8b4dc152144683b4d47a3bdc/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0-rc02.aar/c8329f1a846cfa629d9a16be483ff417/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-rc02.aar/000bf89a8081defba0ad1e88c04a6248/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-rc02.aar/9e9094c69865ad215cf6981773620d79/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0-rc02.aar/ba8b5887f9ed316011d5e9f7b9f4c274/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/3a5ef0a28448e5c99d6bb71fcb79a475/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0-rc02.aar/1f9ff98027cc4bf0ee4ba5aff3299168/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0-rc02.aar/0c2f99cd3e1288f0669d0132d8e2b4ed/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/print-28.0.0-rc02.aar/1969db2cfa82a2c6cd787db811977aa3/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/b808be17b5b3dd40bd7c90fe05d3874c/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/a3d27350a9dca3c7173330fcca66ac89/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/3f4f5462d763b98641d9216cf43f2914/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0-rc02.aar/9a50ef338831b60923a5200fcf1ead68/AndroidManifest.xml:17:1-22:12
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:1-34:12
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:1-34:12
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:1-34:12
+	package
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:3:5-34
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:1-34:12
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:1-34:12
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.CAMERA
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:5:5-65
+	android:name
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:5:22-62
+uses-feature#android.hardware.camera
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:6:5-60
+	android:name
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:6:19-57
+application
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:8:5-32:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/nate/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/37646b9df301218bd91c9b42506bd556/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/nate/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/37646b9df301218bd91c9b42506bd556/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-rc02.aar/000bf89a8081defba0ad1e88c04a6248/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-rc02.aar/000bf89a8081defba0ad1e88c04a6248/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-rc02.aar/9e9094c69865ad215cf6981773620d79/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-rc02.aar/9e9094c69865ad215cf6981773620d79/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-rc02.aar/000bf89a8081defba0ad1e88c04a6248/AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:13:9-35
+	android:label
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:11:9-41
+	android:roundIcon
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:12:9-54
+	android:icon
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:10:9-43
+	android:allowBackup
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:9:9-35
+	android:theme
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:14:9-40
+activity#com.moonsplain.kobe.MainActivity
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:15:9-21:20
+	android:name
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:15:19-47
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:16:13-20:29
+action#android.intent.action.MAIN
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:17:17-69
+	android:name
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:17:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:19:17-77
+	android:name
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:19:27-74
+activity#com.moonsplain.kobe.ARViewActivity
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:22:9-30:20
+	android:parentActivityName
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:24:13-55
+	android:name
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:23:13-43
+meta-data#android.support.PARENT_ACTIVITY
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:27:13-29:49
+	android:value
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:29:17-46
+	android:name
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:28:17-63
+activity#com.moonsplain.kobe.SlamActivity
+ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:31:9-59
+	android:name
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml:31:19-47
+uses-sdk
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support:appcompat-v7:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-rc02.aar/fdcad2aeb11a9242e08e81fd7109d99f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-rc02.aar/fdcad2aeb11a9242e08e81fd7109d99f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/nate/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/37646b9df301218bd91c9b42506bd556/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /home/nate/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/37646b9df301218bd91c9b42506bd556/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-fragment:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-rc02.aar/54e6eec8117712076fda193ac8d1ca9f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-rc02.aar/54e6eec8117712076fda193ac8d1ca9f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0-rc02.aar/edd8598a00f786b1dc80db146ae61e87/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0-rc02.aar/edd8598a00f786b1dc80db146ae61e87/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0-rc02.aar/c7d68d5c3a61ff1141c86f309fbd91e8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0-rc02.aar/c7d68d5c3a61ff1141c86f309fbd91e8/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0-rc02.aar/4589e09d926a32467e11917d52583b2b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0-rc02.aar/4589e09d926a32467e11917d52583b2b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0-rc02.aar/9b0ecef6f04533258e4a18a56cd31412/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0-rc02.aar/9b0ecef6f04533258e4a18a56cd31412/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/loader-28.0.0-rc02.aar/d9fe9b795c6d2e378faef1689d15001f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/loader-28.0.0-rc02.aar/d9fe9b795c6d2e378faef1689d15001f/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0-rc02.aar/ab9b0091e9d0c976d3bf6e7adc898ea2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0-rc02.aar/ab9b0091e9d0c976d3bf6e7adc898ea2/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0-rc02.aar/2b2f4a34d0d6471be21f00f5fac0c11a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0-rc02.aar/2b2f4a34d0d6471be21f00f5fac0c11a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0-rc02.aar/028897566739879e0fdc87af5076607a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0-rc02.aar/028897566739879e0fdc87af5076607a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0-rc02.aar/74e9e5912327789658a09394ed6dd744/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0-rc02.aar/74e9e5912327789658a09394ed6dd744/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/customview-28.0.0-rc02.aar/282aab608becaad8ab55bb6d56fd9740/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/customview-28.0.0-rc02.aar/282aab608becaad8ab55bb6d56fd9740/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0-rc02.aar/82773e6d8b4dc152144683b4d47a3bdc/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0-rc02.aar/82773e6d8b4dc152144683b4d47a3bdc/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0-rc02.aar/c8329f1a846cfa629d9a16be483ff417/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0-rc02.aar/c8329f1a846cfa629d9a16be483ff417/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-rc02.aar/000bf89a8081defba0ad1e88c04a6248/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-rc02.aar/000bf89a8081defba0ad1e88c04a6248/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-rc02.aar/9e9094c69865ad215cf6981773620d79/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-rc02.aar/9e9094c69865ad215cf6981773620d79/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0-rc02.aar/ba8b5887f9ed316011d5e9f7b9f4c274/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0-rc02.aar/ba8b5887f9ed316011d5e9f7b9f4c274/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/3a5ef0a28448e5c99d6bb71fcb79a475/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/3a5ef0a28448e5c99d6bb71fcb79a475/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0-rc02.aar/1f9ff98027cc4bf0ee4ba5aff3299168/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0-rc02.aar/1f9ff98027cc4bf0ee4ba5aff3299168/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0-rc02.aar/0c2f99cd3e1288f0669d0132d8e2b4ed/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0-rc02.aar/0c2f99cd3e1288f0669d0132d8e2b4ed/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/print-28.0.0-rc02.aar/1969db2cfa82a2c6cd787db811977aa3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/print-28.0.0-rc02.aar/1969db2cfa82a2c6cd787db811977aa3/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/b808be17b5b3dd40bd7c90fe05d3874c/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/b808be17b5b3dd40bd7c90fe05d3874c/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/a3d27350a9dca3c7173330fcca66ac89/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/a3d27350a9dca3c7173330fcca66ac89/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/3f4f5462d763b98641d9216cf43f2914/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /home/nate/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/3f4f5462d763b98641d9216cf43f2914/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0-rc02.aar/9a50ef338831b60923a5200fcf1ead68/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0-rc02] /home/nate/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0-rc02.aar/9a50ef338831b60923a5200fcf1ead68/AndroidManifest.xml:20:5-44
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+		ADDED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nate/MAST/Kobe/app/src/main/AndroidManifest.xml
