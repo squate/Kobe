@@ -1,4 +1,4 @@
-#Thu Sep 13 16:16:29 EDT 2018
-base.0=/home/nate/MAST/Kobe/app/build/intermediates/transforms/dexMerger/debug/3
+#Tue Oct 16 20:58:49 EDT 2018
+base.0=C\:\\Users\\leahsanta12\\AndroidStudioProjects\\Kobe\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\2
 path.0=classes.dex
 renamed.0=classes.dex

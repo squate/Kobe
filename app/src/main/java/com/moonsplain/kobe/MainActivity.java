@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     }
    /*Called when the user taps the "Accept" button"*/
     public void acceptDisclaimer(View view) {
-        Intent intent = new Intent(this, ARViewActivity.class);
+        Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
 }

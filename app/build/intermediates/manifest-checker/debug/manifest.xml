@@ -8,6 +8,10 @@
         android:minSdkVersion="23"
         android:targetSdkVersion="28" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
     <application
         android:allowBackup="true"
         android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
@@ -18,13 +22,35 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.moonsplain.kobe.MainActivity" >
+        <activity
+            android:name="com.moonsplain.kobe.MainActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.moonsplain.kobe.ARViewActivity"
+            android:parentActivityName="com.moonsplain.kobe.MenuActivity"
+            android:screenOrientation="portrait" >
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name="com.moonsplain.kobe.SlamActivity" />
+        <activity
+            android:name="com.moonsplain.kobe.LeaderboardActivity"
+            android:parentActivityName="com.moonsplain.kobe.MenuActivity" />
+        <activity
+            android:name="com.moonsplain.kobe.MenuActivity"
+            android.parentActivityName=".MainActivity" />
+        <activity
+            android:name="com.moonsplain.kobe.LoginActivity"
+            android:parentActivityName="com.moonsplain.kobe.MenuActivity" />
 
         <provider
             android:name="com.android.tools.ir.server.InstantRunContentProvider"

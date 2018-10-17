@@ -3,6 +3,7 @@
     package="com.moonsplain.kobe">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -12,8 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity" android:screenOrientation="portrait" >
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,16 +23,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".ARViewActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".SlamActivity"></activity>
+        <activity
+            android:name=".SlamActivity" />
+        <activity
+            android:name=".LeaderboardActivity"
+            android:parentActivityName = ".MenuActivity" />
+        <activity
+            android:name=".MenuActivity"
+            android:parentActivityName = ".MainActivity"/>
+        <activity
+            android:name=".LoginActivity"
+            android:parentActivityName = ".MenuActivity"></activity>
     </application>
 
 </manifest>
