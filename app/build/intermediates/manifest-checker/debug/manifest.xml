@@ -47,7 +47,7 @@
             android:parentActivityName="com.moonsplain.kobe.MenuActivity" />
         <activity
             android:name="com.moonsplain.kobe.MenuActivity"
-            android.parentActivityName=".MainActivity" />
+            android:parentActivityName="com.moonsplain.kobe.MainActivity" />
         <activity
             android:name="com.moonsplain.kobe.LoginActivity"
             android:parentActivityName="com.moonsplain.kobe.MenuActivity" />
