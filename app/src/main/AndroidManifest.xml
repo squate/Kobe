@@ -32,17 +32,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity
-            android:name=".SlamActivity" />
+        <activity android:name=".SlamActivity" />
         <activity
             android:name=".LeaderboardActivity"
-            android:parentActivityName = ".MenuActivity" />
+            android:parentActivityName=".MenuActivity" />
         <activity
             android:name=".MenuActivity"
-            android:parentActivityName = ".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".LoginActivity"
-            android:parentActivityName = ".MenuActivity"></activity>
+            android:parentActivityName=".MenuActivity" />
+        <activity
+            android:name=".AccelTestActivity"
+            android:label="@string/title_activity_accel_test"
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
