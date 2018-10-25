@@ -19,4 +19,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
+
+    public void openDisagree(View view){
+        Intent intent = new Intent(this, DisagreeActivity.class);
+        startActivity(intent);
+    }
 }

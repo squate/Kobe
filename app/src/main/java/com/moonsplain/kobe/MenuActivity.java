@@ -28,6 +28,8 @@ public class MenuActivity extends AppCompatActivity {
     public void openAccel(View view){
         Intent intent = new Intent(this, AccelTestActivity.class);
         startActivity(intent);
-        }
     }
+
+
+}
 

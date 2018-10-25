@@ -8,11 +8,14 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
+import android.widget.TextView;
 
 public class AccelTestActivity extends Activity implements SensorEventListener {
     View view;
     private SensorManager senSensorManager;
     private Sensor senAccelerometer;
+
+    private static final String TAG = "AccelTestActivity";
 
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
@@ -25,6 +28,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
 
         view = this.getWindow().getDecorView();
         view.setBackgroundResource(R.color.colorAccent);
+
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);

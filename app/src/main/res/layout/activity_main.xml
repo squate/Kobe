@@ -17,7 +17,7 @@
         android:layout_marginBottom="36dp"
         android:backgroundTint="?attr/colorButtonNormal"
         android:elevation="24dp"
-        android:onClick="acceptDisclaimer"
+        android:onClick="openDisagree"
         android:text="I'm not ready to face the consequences of my actions"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimaryDark"
