@@ -17,6 +17,8 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
 
     private static final String TAG = "AccelTestActivity";
 
+    TextView xValue, yValue, zValue;
+
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 600;
@@ -29,6 +31,9 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         view = this.getWindow().getDecorView();
         view.setBackgroundResource(R.color.colorAccent);
 
+        xValue = (TextView) findViewById(R.id.xValue);
+        yValue = (TextView) findViewById(R.id.yValue);
+        zValue = (TextView) findViewById(R.id.zValue);
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -43,6 +48,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             float x = sensorEvent.values[0];
             float y = sensorEvent.values[1];
             float z = sensorEvent.values[2];
+
+            xValue.setText("xValue: " + sensorEvent.values[0]);
+            yValue.setText("yValue: " + sensorEvent.values[1]);
+            zValue.setText("zValue: " + sensorEvent.values[2]);
+
 
             long curTime = System.currentTimeMillis();
 
