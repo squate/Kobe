@@ -14,6 +14,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     View view;
     private SensorManager senSensorManager;
     private Sensor senAccelerometer;
+    boolean up = false;
 
     private static final String TAG = "AccelTestActivity";
 
@@ -22,6 +23,21 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     private long lastUpdate = 0;
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 600;
+
+    public boolean thrown(float x, float y, float z) {
+        //if magnitude of accelerometer vector is close enough to zero (phone is probably in free-fall
+        if ((x * x + y * y + z * z) < 2)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean landed(float x, float y, float z){
+        if((x*x+y*y+z*z) >(9.7*9.7))
+            return true;
+        else
+            return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +78,19 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
 
                 float speed = Math.abs(x + y + z - last_x - last_y - last_z)/ diffTime * 10000;
 
-                if (speed > SHAKE_THRESHOLD) {
+               // if (speed > SHAKE_THRESHOLD) {
+                 //   view.setBackgroundResource(R.color.colorPrimary);
+                //}
+                if (thrown(x, y, z) == true){
+                    up = true;
                     view.setBackgroundResource(R.color.colorPrimary);
+                }
+
+                if (up){
+                    if (landed(x,y,z)) {
+                        view.setBackgroundResource(R.color.colorAccent);
+                        up = false;
+                    }
                 }
 
                 last_x = x;
