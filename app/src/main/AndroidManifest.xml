@@ -3,7 +3,16 @@
     package="com.moonsplain.kobe">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera.ar" android:required = "true"/>
+
+    <uses-feature
+        android:name="android.hardware.sensor.proximity"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.gyroscope"
+        android:required="true" />
+
 
     <application
         android:allowBackup="true"
