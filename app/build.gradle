@@ -38,6 +38,7 @@ dependencies {
     implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.5.1'
     implementation 'com.google.ar.sceneform:assets:1.5.1'
     implementation 'com.google.android.gms:play-services-games:16.0.0'
+    implementation 'com.android.support:design:28.0.0'
 }
 
 
