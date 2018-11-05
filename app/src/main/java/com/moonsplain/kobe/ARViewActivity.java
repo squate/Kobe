@@ -3,6 +3,7 @@ package com.moonsplain.kobe;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,7 +45,7 @@ public class ARViewActivity extends AppCompatActivity {
             onUpdate();
         });
 
-        addObject(Uri.parse("model.sfb"));
+        initializeButton();
     }
 
     private void onUpdate() {
@@ -128,7 +129,7 @@ public class ARViewActivity extends AppCompatActivity {
                         .exceptionally((throwable -> {
                             AlertDialog.Builder builder = new AlertDialog.Builder(this);
                             builder.setMessage(throwable.getMessage())
-                                    .setTitle("Codelab error!");
+                                    .setTitle("Kobe error!");
                             AlertDialog dialog = builder.create();
                             dialog.show();
                             return null;
@@ -146,5 +147,11 @@ public class ARViewActivity extends AppCompatActivity {
 
     //Get intent that started this activity
     Intent intent = getIntent();
+
+    private void initializeButton() {
+        FloatingActionButton button = findViewById(R.id.floatingActionButton2);
+
+        button.setOnClickListener(view -> {addObject(Uri.parse("model.sfb"));});
+    }
 
 }
