@@ -4,15 +4,15 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera.ar" android:required = "true"/>
-
+    <uses-feature
+        android:name="android.hardware.camera.ar"
+        android:required="true" />
     <uses-feature
         android:name="android.hardware.sensor.proximity"
         android:required="true" />
     <uses-feature
         android:name="android.hardware.sensor.gyroscope"
         android:required="true" />
-
 
     <application
         android:allowBackup="true"
@@ -58,8 +58,16 @@
             android:label="@string/title_activity_accel_test"
             android:parentActivityName=".MenuActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".DisagreeActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".DisagreeActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".Help"
+            android:parentActivityName=".MenuActivity"/>
+        <activity
+            android:name=".SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

@@ -30,6 +30,11 @@ public class MenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openHelp(View view){
+        Intent intent = new Intent(this, Help.class);
+        startActivity(intent);
+    }
+
 
 }
 

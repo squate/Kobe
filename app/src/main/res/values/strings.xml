@@ -5,4 +5,8 @@
         By clicking \"accept\", the user agrees that if they throw their phone, it is their choice and their choice alone.
     </string>
     <string name="title_activity_accel_test">AccelTestActivity</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
