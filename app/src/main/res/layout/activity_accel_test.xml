@@ -12,34 +12,63 @@
     <TextView
         android:id="@+id/xValue"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/yValue"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/zValue"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
+    <TextView
+        android:id="@+id/wX"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
 
+    <TextView
+        android:id="@+id/wY"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/wZ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
+    <TextView
+        android:id="@+id/wN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
     <TextView
         android:id="@+id/prox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
+
     <TextView
         android:id="@+id/prox_last"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/airtime"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/best_airtime"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
 </LinearLayout>
