@@ -8,43 +8,46 @@
 
     <Button
         android:id="@+id/ARView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="66dp"
+        android:layout_width="354dp"
+        android:layout_height="78dp"
+        android:layout_marginTop="180dp"
         android:onClick="openARView"
         android:text="Open Throw Mode"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="218dp"
+        android:layout_width="356dp"
+        android:layout_height="73dp"
+        android:layout_marginTop="272dp"
         android:onClick="openLeaderboard"
         android:text="Open Leaderboard"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="192dp"
+        android:layout_width="358dp"
+        android:layout_height="63dp"
+        android:layout_marginBottom="208dp"
         android:onClick="openLogIn"
         android:text="Log In"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.588"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="128dp"
-        android:layout_marginBottom="80dp"
+        android:layout_width="354dp"
+        android:layout_height="58dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="128dp"
         android:onClick="openAccel"
         android:text="Accelerometer"
         app:layout_constraintBottom_toBottomOf="parent"
