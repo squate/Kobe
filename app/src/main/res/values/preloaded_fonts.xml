@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/archivo_black</item>
+        <item>@font/carter_one</item>
+        <item>@font/pacifico</item>
+        <item>@font/titillium_web_extralight</item>
+        <item>@font/trade_winds</item>
+    </array>
+</resources>
