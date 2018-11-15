@@ -18,17 +18,19 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     private SensorManager senSensorManager;
     private SensorManager proxSensorManager;
     private SensorManager gyroSensorManager;
+    private SensorManager gameSensorManager;
     private Sensor senAccelerometer;
     private Sensor senProximity;
     private Sensor senGyro;
+    private Sensor senGame;
     boolean up = false;
     boolean faceDown = false;
     long t0, t1, a, best = 0;
-    float x, y, z, gX, gY, gZ;
+    float x, y, z, gX, gY, gZ, rX, rY, rZ;
     float gN, gN0 = 0;
     private static final String TAG = "AccelTestActivity";
 
-    TextView xValue, yValue, zValue, wX, wY, wZ, wN, airtime, best_airtime, prox, prox_last;
+    TextView xValue, yValue, zValue, wX, wY, wZ, wN, airtime, best_airtime, prox, prox_last, game;
 
     //if magnitude of accelerometer vector is close enough to zero
     // (if phone is probably in free-fall)
@@ -68,6 +70,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         prox_last.setText("most recent landing: none");
         airtime = findViewById(R.id.airtime);
         best_airtime = findViewById(R.id.best_airtime);
+        game = findViewById(R.id.game);
 
         //accelerometer sensor airtime
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -82,6 +85,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         gyroSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senGyro = gyroSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         gyroSensorManager.registerListener(this, senGyro , SensorManager.SENSOR_DELAY_GAME);
+
+        gameSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        senGame= gameSensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
+        gameSensorManager.registerListener(this, senGame, SensorManager.SENSOR_DELAY_FASTEST);
+
     }
 
     @Override
@@ -141,8 +149,9 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             gY = sensorEvent.values[1];
             gZ = sensorEvent.values[2];
             gN0 = gN;
-            gN = gX*gX + gY *gY + gZ * gZ;
+            gN = gX*gX + gY*gY + gZ*gZ;
 
+            //spinning throw detection
             if (spinThrown(gN0, gN) && !up){
                 t0 = System.currentTimeMillis();
                 view.setBackgroundResource(R.color.colorPrimary);
@@ -153,6 +162,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             wY.setText("wY: " + sensorEvent.values[1]);
             wZ.setText("wZ: " + sensorEvent.values[2]);
             wN.setText("wN: " + gN);
+        }if (mySensor.getType()== Sensor.TYPE_GAME_ROTATION_VECTOR){
+            rX = sensorEvent.values[0];
+            rY = sensorEvent.values[1];
+            rZ = sensorEvent.values[2];
+            game.setText("GAME ROTATION X: "+ rX + "Y:" + rY + "Z: " + rZ);
         }
     }
 
