@@ -168,13 +168,12 @@ public class ARViewActivity extends AppCompatActivity {
         node.select();
     }
 
-    //Get intent that started this activity
-    Intent intent = getIntent();
-
+    //Button to place target
     private void initializeButton() {
         FloatingActionButton button = findViewById(R.id.floatingActionButton2);
 
         button.setOnClickListener(view -> {addObject(Uri.parse("model.sfb"));});
+
     }
 
     private String generateFilename() {
@@ -235,6 +234,10 @@ public class ARViewActivity extends AppCompatActivity {
                     intent.setDataAndType(photoURI, "image/*");
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivity(intent);
+                    String currentPath = photoFile.getAbsolutePath();
+                    Intent intent2 = new Intent(this, ViewPhotoActivity.class);
+                    intent2.setData(Uri.parse(currentPath));
+                    startActivity(intent2);
 
                 });
                 snackbar.show();
