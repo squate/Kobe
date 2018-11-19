@@ -72,7 +72,7 @@
         android:onClick="acceptDisclaimer"
         android:text="I agree, it's not Kobe's fault I suck"
         android:textAllCaps="false"
-        android:textColor="@color/common_google_signin_btn_text_dark_focused"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
