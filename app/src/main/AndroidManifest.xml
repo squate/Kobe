@@ -14,7 +14,7 @@
         android:name="android.hardware.sensor.gyroscope"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -63,8 +63,9 @@
             android:label="@string/title_activity_accel_test"
             android:parentActivityName=".MenuActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".DisagreeActivity"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".DisagreeActivity"
+            android:parentActivityName=".MainActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -73,12 +74,14 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/paths"/>
+                android:resource="@xml/paths" />
         </provider>
+
         <activity
             android:name=".DisagreeActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".HelpActivity"></activity>
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".ViewPhotoActivity"></activity>
     </application>
 
 </manifest>
