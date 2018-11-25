@@ -8,10 +8,13 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="160dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="84dp"
+        android:layout_width="158dp"
+        android:layout_height="153dp"
+        android:layout_marginTop="260dp"
         android:text="YOU DISAGREED"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
