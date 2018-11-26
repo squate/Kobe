@@ -38,7 +38,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             yeetView, maxYeetView,
             xValue, yValue, zValue,
             wX, wY, wZ, wN,
-            airtime, best_airtime, prox, prox_last;
+            airtime, best_airtime, prox, prox_last, levelView;
 
     Button quest_button;
 
@@ -69,6 +69,12 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             //level 2 quest: believe in yourself
             case 2: return (t.a >= 1000);
 
+            //careful now!
+            case 3: return (t.a >= 1500);
+
+            //go to church, or outside
+            case 4: return (t.a >= 2000);
+
             default:
                 view.setBackgroundResource(R.color.colorAccent);
                 break;
@@ -80,7 +86,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             return R.string.q1;
         }if (level == 2){
             return R.string.q2;
-        }else{return R.string.q3;}
+        }if (level == 3){
+            return R.string.q3;
+        }if (level == 4){
+            return R.string.q4;
+        }else{return R.string.done;}
     }
     public void quest1(View view){
         if (q == 0){
@@ -113,10 +123,14 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         wZ=  findViewById(R.id.wZ);
         wN=  findViewById(R.id.wN);
         prox = findViewById(R.id.prox);
+
         prox_last = findViewById(R.id.prox_last);
         prox_last.setText("most recent landing: none");
+
         airtime = findViewById(R.id.airtime);
         best_airtime = findViewById(R.id.best_airtime);
+        levelView = findViewById(R.id.level);
+        levelView.setText("level: " + level);
         quest_button = findViewById(R.id.quest1);
 
 
@@ -148,11 +162,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             yeet = x*x+y*y+z*z;
             if (yeet > maxYeet){
                 maxYeet = yeet;
-                maxYeetView.setText("max yeet:" + maxYeet);}
+                maxYeetView.setText("max yeet: " + maxYeet);}
 
-            xValue.setText("aX: " + x);
-            yValue.setText("aY: " + y);
-            zValue.setText("aZ: " + z);
+            //xValue.setText("aX: " + x);
+            //yValue.setText("aY: " + y);
+            //zValue.setText("aZ: " + z);
             yeetView.setText("yeet: " + yeet);
 
 
@@ -186,6 +200,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                         if (checkQuest(level, lastThrow)) {
                             view.setBackgroundResource(R.color.green);
                             level++;
+                            levelView.setText("level: " + level);
                             quest_button.setText(setQuest(level));
                             quest1(quest_button);
                         } else {
@@ -223,10 +238,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                 up = true;
             }
 
-            wX.setText("wX: " + sensorEvent.values[0]);
-            wY.setText("wY: " + sensorEvent.values[1]);
-            wZ.setText("wZ: " + sensorEvent.values[2]);
-            wN.setText("wN: " + gN);
+            //wX.setText("wX: " + sensorEvent.values[0]);
+            //wY.setText("wY: " + sensorEvent.values[1]);
+            //wZ.setText("wZ: " + sensorEvent.values[2]);
+            if (gN > 0.01){ wN.setText("twirl: " + gN);}
+            else{wN.setText("twirl: 0" );}
         }
     }
 
