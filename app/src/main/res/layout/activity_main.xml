@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
@@ -20,7 +21,7 @@
         android:onClick="openDisagree"
         android:text="I'm not ready to face the consequences of my actions"
         android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccent"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,10 +31,10 @@
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="57dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="11dp"
         android:layout_marginStart="11dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="16dp"
         android:text="D I S C L A I M E R !"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"
@@ -48,9 +49,9 @@
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="184dp"
-        android:layout_marginBottom="36dp"
-        android:layout_marginEnd="11dp"
         android:layout_marginStart="11dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="36dp"
         android:text="@string/disclaimer"
         android:textAlignment="center"
         android:textSize="18sp"
@@ -67,7 +68,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/colorAccent"
         android:elevation="24dp"
         android:onClick="acceptDisclaimer"
         android:text="I agree, it's not Kobe's fault I suck"
@@ -77,6 +78,6 @@
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-        />
+    />
 
 </android.support.constraint.ConstraintLayout>
