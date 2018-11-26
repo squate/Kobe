@@ -9,6 +9,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import java.lang.System;
 
@@ -18,19 +19,23 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     private SensorManager senSensorManager;
     private SensorManager proxSensorManager;
     private SensorManager gyroSensorManager;
-    private SensorManager gameSensorManager;
+    //private SensorManager rotSensorManager;
     private Sensor senAccelerometer;
     private Sensor senProximity;
     private Sensor senGyro;
-    private Sensor senGame;
+    //private Sensor senRot;
     boolean up = false;
     boolean faceDown = false;
     long t0, t1, a, best = 0;
-    float x, y, z, gX, gY, gZ, rX, rY, rZ;
+    float x, y, z, gX, gY, gZ;
+    int q = -1;
+    Throw[] throwsSoFar;
+    Throw lastThrow;
     float gN, gN0 = 0;
     private static final String TAG = "AccelTestActivity";
 
-    TextView xValue, yValue, zValue, wX, wY, wZ, wN, airtime, best_airtime, prox, prox_last, game;
+    TextView xValue, yValue, zValue, wX, wY, wZ, wN, airtime, best_airtime, prox, prox_last;
+    Button quest_button;
 
     //if magnitude of accelerometer vector is close enough to zero
     // (if phone is probably in free-fall)
@@ -46,9 +51,36 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     //(if phone is probably at rest)
     //TODO: update so this can override hand jitter to filter carries
     public boolean landed(float x, float y, float z){
-        return((x*x+y*y+z*z) >(94));
+        return(94 < x*x + y*y + z*z);
     }
 
+
+    public void checkQuest(int which, Throw t){
+        switch (which) {
+            case 1:
+                if (t.a >= 500 && t.fD == false) {
+                    view.setBackgroundResource(R.color.green);
+                } else {
+                    view.setBackgroundResource(R.color.red);
+                }
+                break;
+            default:
+                view.setBackgroundResource(R.color.colorAccent);
+                break;
+        }
+    }
+
+
+
+    public void quest1(View view){
+        if (q == -1){
+            quest_button.setBackgroundResource(R.color.colorPrimary);
+            q = 1;
+        }else{
+            q = -1;
+            quest_button.setBackgroundResource(R.color.colorAccent);
+        }return;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +102,13 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         prox_last.setText("most recent landing: none");
         airtime = findViewById(R.id.airtime);
         best_airtime = findViewById(R.id.best_airtime);
-        game = findViewById(R.id.game);
+        quest_button = findViewById(R.id.quest1);
+
 
         //accelerometer sensor airtime
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSensorManager.registerListener(this, senAccelerometer , SensorManager.SENSOR_DELAY_FASTEST);
-
 
         proxSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senProximity = senSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
@@ -86,9 +118,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         senGyro = gyroSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         gyroSensorManager.registerListener(this, senGyro , SensorManager.SENSOR_DELAY_GAME);
 
-        gameSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        senGame= gameSensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
-        gameSensorManager.registerListener(this, senGame, SensorManager.SENSOR_DELAY_FASTEST);
+        //add one for rotation when it's time
 
     }
 
@@ -113,10 +143,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                 view.setBackgroundResource(R.color.colorPrimary);
             }
 
-            if (up){
+            if (up){ //phone is in the air
                 if (landed(x,y,z) && !spinThrown(gN0,gN)) {
                     t1 = System.currentTimeMillis();
                     a = t1-t0;
+                    lastThrow = new Throw(a, faceDown);
                     if (a > best){
                         best = a;
                         //best_airtime = findViewById(R.id.best_airtime);
@@ -126,10 +157,10 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                         prox_last.setText("last landing: face-down");
                     else
                         prox_last.setText("last landing: face-up");
-                    if (a >= 30) {
+                    if (a >= 70) {
                         airtime.setText("most recent airtime: " + a + " ms");
                     }
-                    view.setBackgroundResource(R.color.colorAccent);
+                    checkQuest(q, lastThrow);
                     up = false;
                 }
 
@@ -162,11 +193,6 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             wY.setText("wY: " + sensorEvent.values[1]);
             wZ.setText("wZ: " + sensorEvent.values[2]);
             wN.setText("wN: " + gN);
-        }if (mySensor.getType()== Sensor.TYPE_GAME_ROTATION_VECTOR){
-            rX = sensorEvent.values[0];
-            rY = sensorEvent.values[1];
-            rZ = sensorEvent.values[2];
-            game.setText("GAME ROTATION X: "+ rX + "Y:" + rY + "Z: " + rZ);
         }
     }
 
@@ -189,4 +215,14 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
+    private class Throw{
+        long a;
+        boolean fD;
+
+        Throw(long a, boolean fD){
+            this.a = a;
+            this.fD = fD;
+        }
+    }
 }
+
