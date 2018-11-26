@@ -5,4 +5,9 @@
         By clicking \"accept\", the user agrees that if they throw their phone, it is their choice and their choice alone.
     </string>
     <string name="title_activity_accel_test">AccelTestActivity</string>
+    <string name="q1">QUEST: airtime > .5 seconds, phone landing face-up</string>
+    <string name="q2">QUEST: airtime > .5 seconds, phone landing face-down</string>
+    <string name="q3">QUEST: airtime > .5 seconds, phone landing face-down</string>
+
+
 </resources>
