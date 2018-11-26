@@ -47,6 +47,8 @@ public class ARViewActivity extends AppCompatActivity {
     private boolean isTracking;
     private boolean isHitting;
 
+    public static Anchor targetAnchor;
+
     private boolean targetActive;
 
     @Override
@@ -133,7 +135,8 @@ public class ARViewActivity extends AppCompatActivity {
                 if (trackable instanceof Plane &&
                         ((Plane) trackable).isPoseInPolygon(hit.getHitPose())) {
                     if (targetActive == false) {
-                        placeObject(fragment, hit.createAnchor(), model);
+                        targetAnchor = hit.createAnchor();
+                        placeObject(fragment, targetAnchor, model);
                         targetActive = true;
                         break;
 

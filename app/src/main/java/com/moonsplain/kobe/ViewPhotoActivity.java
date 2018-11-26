@@ -26,6 +26,8 @@ public class ViewPhotoActivity extends AppCompatActivity {
 
             myImage.setImageBitmap(myBitmap);
 
+            ARViewActivity.targetAnchor.getPose();
+
         }
     }
 
