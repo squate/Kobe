@@ -85,10 +85,13 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     public void quest1(View view){
         if (q == 0){
             quest_button.setBackgroundResource(R.color.colorPrimary);
+            quest_button.setTextColor(getColor(R.color.colorPrimaryDark));
             q = 1;
         }else{
             q = 0;
-            quest_button.setBackgroundResource(R.color.colorAccent);
+            quest_button.setBackgroundResource(R.color.colorPrimaryDark);
+            quest_button.setTextColor(getColor(R.color.colorPrimary));
+
         }return;
     }
 
@@ -187,7 +190,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                         } else {
                             view.setBackgroundResource(R.color.red);
                         }
-                    }up = false;
+                    }else{
+                        view.setBackgroundResource(R.color.colorAccent);
+                    }
+
+                    up = false;
                 }
 
             }
