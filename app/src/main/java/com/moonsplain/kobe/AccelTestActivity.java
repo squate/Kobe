@@ -27,20 +27,25 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     boolean up = false;
     boolean faceDown = false;
     long t0, t1, a, best = 0;
-    float x, y, z, gX, gY, gZ;
-    int q = -1;
+    float x, y, z, gX, gY, gZ, yeet, maxYeet, lastThrowMaxYeet;
     Throw[] throwsSoFar;
     Throw lastThrow;
     float gN, gN0 = 0;
+    int level = 1; int q = 0;
     private static final String TAG = "AccelTestActivity";
 
-    TextView xValue, yValue, zValue, wX, wY, wZ, wN, airtime, best_airtime, prox, prox_last;
+    TextView
+            yeetView, maxYeetView,
+            xValue, yValue, zValue,
+            wX, wY, wZ, wN,
+            airtime, best_airtime, prox, prox_last;
+
     Button quest_button;
 
     //if magnitude of accelerometer vector is close enough to zero
     // (if phone is probably in free-fall)
-    public boolean thrown(float x, float y, float z) {
-        return ((x * x + y * y + z * z) < 2);
+    public boolean thrown(float yeet) {
+        return (yeet < 2);
     }
 
     //true if the normal vector of the rotational forces is significant and unchanging
@@ -50,34 +55,39 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     //if magnitude of accelerometer vector is close enough to 9.8
     //(if phone is probably at rest)
     //TODO: update so this can override hand jitter to filter carries
-    public boolean landed(float x, float y, float z){
-        return(94 < x*x + y*y + z*z);
+    public boolean landed(float yeet){
+        return(yeet > 94);
     }
 
+    //here's where we have the conditions for successful quests
+    public boolean checkQuest(int level, Throw t){
+        //ALL QUEST CONDITIONS HERE
+        switch (level) {
+            //level 1: the contract is sealed
+            case 1: return (t.a >= 500 && t.fD == false);
 
-    public void checkQuest(int which, Throw t){
-        switch (which) {
-            case 1:
-                if (t.a >= 500 && t.fD == false) {
-                    view.setBackgroundResource(R.color.green);
-                } else {
-                    view.setBackgroundResource(R.color.red);
-                }
-                break;
+            //level 2 quest: believe in yourself
+            case 2: return (t.a >= 1000);
+
             default:
                 view.setBackgroundResource(R.color.colorAccent);
                 break;
-        }
+
+        }return false;
     }
-
-
-
+    public int setQuest(int level){
+        if (level == 1){
+            return R.string.q1;
+        }if (level == 2){
+            return R.string.q2;
+        }else{return -1;}
+    }
     public void quest1(View view){
-        if (q == -1){
+        if (q == 0){
             quest_button.setBackgroundResource(R.color.colorPrimary);
             q = 1;
         }else{
-            q = -1;
+            q = 0;
             quest_button.setBackgroundResource(R.color.colorAccent);
         }return;
     }
@@ -90,6 +100,8 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         view = this.getWindow().getDecorView();
         view.setBackgroundResource(R.color.colorAccent);
 
+        yeetView = findViewById(R.id.yeet);
+        maxYeetView = findViewById(R.id.maxYeet);
         xValue = findViewById(R.id.xValue);
         yValue = findViewById(R.id.yValue);
         zValue = findViewById(R.id.zValue);
@@ -130,27 +142,34 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             x = sensorEvent.values[0];
             y = sensorEvent.values[1];
             z = sensorEvent.values[2];
+            yeet = x*x+y*y+z*z;
+            if (yeet > maxYeet){
+                maxYeet = yeet;
+                maxYeetView.setText("max yeet:" + maxYeet);}
 
-            xValue.setText("xValue: " + sensorEvent.values[0]);
-            yValue.setText("yValue: " + sensorEvent.values[1]);
-            zValue.setText("zValue: " + sensorEvent.values[2]);
-            //airtime.setText("most recent airtime: " + a +" ms");
-            //best_airtime.setText("best airtime in session: " + best +" ms");
+            xValue.setText("aX: " + x);
+            yValue.setText("aY: " + y);
+            zValue.setText("aZ: " + z);
+            yeetView.setText("yeet: " + yeet);
 
-            if (thrown(x, y, z) && !up){
+
+            if (thrown(yeet) && !up){
                 t0 = System.currentTimeMillis();
                 up = true;
                 view.setBackgroundResource(R.color.colorPrimary);
             }
 
             if (up){ //phone is in the air
-                if (landed(x,y,z) && !spinThrown(gN0,gN)) {
+                if (landed(yeet) && !spinThrown(gN0,gN)) {
                     t1 = System.currentTimeMillis();
                     a = t1-t0;
-                    lastThrow = new Throw(a, faceDown);
+                    lastThrowMaxYeet = maxYeet;
+                    maxYeet = 0;
+
+                    lastThrow = new Throw(a, faceDown, lastThrowMaxYeet, gN);
+
                     if (a > best){
                         best = a;
-                        //best_airtime = findViewById(R.id.best_airtime);
                         best_airtime.setText("best airtime in session: " + best +" ms");
                     }
                     if (faceDown)
@@ -160,8 +179,15 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                     if (a >= 70) {
                         airtime.setText("most recent airtime: " + a + " ms");
                     }
-                    checkQuest(q, lastThrow);
-                    up = false;
+                    if (q > 0 && a > 70) {
+                        if (checkQuest(level, lastThrow)) {
+                            view.setBackgroundResource(R.color.green);
+                            level++;
+                            quest_button.setText(setQuest(level));
+                        } else {
+                            view.setBackgroundResource(R.color.red);
+                        }
+                    }up = false;
                 }
 
             }
@@ -215,13 +241,18 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
+
     private class Throw{
         long a;
         boolean fD;
+        float maxYeet; //normal of the accelerometer vector
+        float twirl; //normal of the gyroscope vector
 
-        Throw(long a, boolean fD){
+        Throw(long a, boolean fD, float maxYeet, float twirl){
             this.a = a;
             this.fD = fD;
+            this.maxYeet = maxYeet;
+            this.twirl = twirl;
         }
     }
 }
