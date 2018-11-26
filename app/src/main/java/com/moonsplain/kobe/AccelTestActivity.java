@@ -36,9 +36,9 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
 
     TextView
             yeetView, maxYeetView,
-            xValue, yValue, zValue,
-            wX, wY, wZ, wN,
-            airtime, best_airtime, prox, prox_last, levelView;
+            //xValue, yValue, zValue,
+            //wX, wY, wZ,
+            wN, airtime, best_airtime, prox, prox_last, levelView;
 
     Button quest_button;
 
@@ -115,12 +115,12 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
 
         yeetView = findViewById(R.id.yeet);
         maxYeetView = findViewById(R.id.maxYeet);
-        xValue = findViewById(R.id.xValue);
+        /*xValue = findViewById(R.id.xValue);
         yValue = findViewById(R.id.yValue);
         zValue = findViewById(R.id.zValue);
         wX=  findViewById(R.id.wX);
         wY=  findViewById(R.id.wY);
-        wZ=  findViewById(R.id.wZ);
+        wZ=  findViewById(R.id.wZ); */
         wN=  findViewById(R.id.wN);
         prox = findViewById(R.id.prox);
 
