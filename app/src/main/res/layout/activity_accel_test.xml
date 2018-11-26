@@ -72,8 +72,15 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white" />
     <TextView
-        android:id="@+id/game"
+        android:id="@+id/pose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/quest1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="quest1"
+        android:text="@string/q1" />
 </LinearLayout>
