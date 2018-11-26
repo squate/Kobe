@@ -1,6 +1,8 @@
 package com.moonsplain.kobe;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 
 import android.hardware.SensorEvent;
@@ -9,7 +11,10 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
 import java.lang.System;
 
 //TODO: add function to detect rotational throws
@@ -55,8 +60,9 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accel_test);
 
-        view = this.getWindow().getDecorView();
-        view.setBackgroundResource(R.color.colorAccent);
+
+        //view = this.getWindow().getDecorView();
+        //view.setBackgroundResource(R.color.colorAccent);
 
         xValue = findViewById(R.id.xValue);
         yValue = findViewById(R.id.yValue);
