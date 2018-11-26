@@ -64,7 +64,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         //ALL QUEST CONDITIONS HERE
         switch (level) {
             //level 1: the contract is sealed
-            case 1: return (t.a >= 500 && t.fD == false);
+            case 1: return (t.a >= 666);
 
             //level 2 quest: believe in yourself
             case 2: return (t.a >= 1000);
@@ -80,7 +80,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             return R.string.q1;
         }if (level == 2){
             return R.string.q2;
-        }else{return -1;}
+        }else{return R.string.q3;}
     }
     public void quest1(View view){
         if (q == 0){
@@ -187,6 +187,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                             view.setBackgroundResource(R.color.green);
                             level++;
                             quest_button.setText(setQuest(level));
+                            quest1(quest_button);
                         } else {
                             view.setBackgroundResource(R.color.red);
                         }
