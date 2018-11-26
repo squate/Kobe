@@ -77,11 +77,10 @@
                 android:resource="@xml/paths" />
         </provider>
 
-        <activity
-            android:name=".DisagreeActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".HelpActivity" />
-        <activity android:name=".ViewPhotoActivity"></activity>
+        <activity android:name=".HelpActivity"
+            android:parentActivityName=".MenuActivity"/>
+        <activity android:name=".ViewPhotoActivity"
+            android:parentActivityName=".ARViewActivity"></activity>
     </application>
 
 </manifest>
