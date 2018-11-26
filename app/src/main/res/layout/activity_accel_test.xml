@@ -8,8 +8,18 @@
     android:padding="30sp"
     tools:context=".AccelTestActivity">
 
-
     <TextView
+        android:id="@+id/yeet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
+    <TextView
+        android:id="@+id/maxYeet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
+
+   <!-- <TextView
         android:id="@+id/xValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +52,7 @@
         android:id="@+id/wZ"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white" /> -->
     <TextView
         android:id="@+id/wN"
         android:layout_width="match_parent"
@@ -73,6 +83,12 @@
         android:textColor="@android:color/white" />
     <TextView
         android:id="@+id/pose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@+id/level"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white" />
