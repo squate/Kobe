@@ -226,8 +226,8 @@ public class ARViewActivity extends AppCompatActivity {
                     return;
                 }
                 Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
-                        "Photo saved", Snackbar.LENGTH_LONG);
-                snackbar.setAction("Open in Photos", v -> {
+                        "Target locked", Snackbar.LENGTH_LONG);
+                snackbar.setAction("Ready to Throw", v -> {
                     File photoFile = new File(filename);
 
                     Uri photoURI = FileProvider.getUriForFile(ARViewActivity.this,
