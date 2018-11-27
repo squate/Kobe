@@ -1,4 +1,4 @@
-You've been caught! You wake up hanging upside-down from cold chains around your ankles.#Wiggle Free- twirl > 20, 300 < a <350 %1%0%
+You've been caught! You wake up hanging upside-down from cold chains around your ankles.#Wiggle Free( twirl > 20, 300 < a <350) %1%0%
     fd  %-1% aMin  %300%   aMax  %400 % yeetMin %0% yeetMax %99999% twirlMin %0   %  twirlMax %9999999~
 A leg slips free. An armed guard shuffles past, reading a magazine.#Silently remove other leg (a > 600ms face-up) %2%1%
     fd  %1% aMin  %600%   aMax  %10000 % yeetMin %0% yeetMax %99999% twirlMin %0   %  twirlMax %9999999~
