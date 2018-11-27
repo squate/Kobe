@@ -1,20 +1,18 @@
 package com.moonsplain.kobe;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
+import android.util.Log;// keep, just in case
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.System;
@@ -37,14 +35,12 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     float x, y, z, gX, gY, gZ, yeet, maxYeet, lastThrowMaxYeet;
     Throw lastThrow;
     float gN, gN0, twirl= 0;
-    int level = 0; int q = 0; int pgs = 0;
-    private static final String TAG = "AccelTestActivity";
+    int level = 0; int q = 0;
     public Quest[] page;
-
+    MediaPlayer loseSound;
+    MediaPlayer winSound;
     TextView
             yeetView, maxYeetView,
-            //xValue, yValue, zValue,
-            //wX, wY, wZ,
             wN, airtime, best_airtime, prox, prox_last, levelView, story;
 
     Button quest_button;
@@ -69,31 +65,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         return(yeet > 94);
     }
 
-    //here's where we have the conditions for successful quests
-    public boolean attemptQuest(int page, Throw t){
-        //ALL QUEST CONDITIONS HERE
-        page+=1;
-        switch (page) {
-            //level 1: the contract is sealed
-            case 1: return (t.a > 300 && t.a < 400 && t.twirl > 200);
-
-            //level 2 quest: believe in yourself
-            case 2: return (t.a >= 600 && !t.fD);
-
-            //careful now!
-            case 3: return (t.a >= 1500);
-
-            //go to church, or outside
-            case 4: return (t.a >= 2000);
-
-            default:
-                view.setBackgroundResource(R.color.colorAccent);
-                break;
-
-        }return false;
-    }
-
-    //TODO: make work for any button
+    //TODO: if we have time, implement muliple option system
     public void toggleButton(View view){
         if (q == 0){
             quest_button.setBackgroundResource(R.color.colorPrimary);
@@ -104,16 +76,16 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             quest_button.setBackgroundResource(R.color.colorPrimaryDark);
             quest_button.setTextColor(getColor(R.color.colorPrimary));
 
-        }return;
+        }
     }
 
+    //load quests into page[] array
     public Quest[] loadQuests(String fileName){
         String questsRaw = "";
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(
                     new InputStreamReader(getAssets().open(fileName), "UTF-8"));
-
             // do reading, usually loop until end of file reading
             String mLine;
             while ((mLine = reader.readLine()) != null) {
@@ -131,25 +103,16 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             }
         }
 
-
         String[] pages = questsRaw.split("~");
-        Log.d("OOF", ""+ pages.length);
         Quest[] quests = new Quest[pages.length];
 
         String[] cD;
         for (int i = 0; i < pages.length; i++){
             cD = pages[i].split("%");
-            quests[i] = new Quest(cD[0], Integer.parseInt(cD[1]), Integer.parseInt(cD[2]),
-                    Integer.parseInt(cD[4]),
-                    Float.parseFloat(cD[6]), Float.parseFloat(cD[8]),
-                    Float.parseFloat(cD[14]),Float.parseFloat(cD[16]),
-                    Float.parseFloat(cD[10]),Float.parseFloat(cD[12])
-                    );
+            quests[i] = new Quest(cD);
         }
         return quests;
     }
-
-
 
     //pretty much main below here
     @Override
@@ -161,12 +124,6 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
 
         yeetView = findViewById(R.id.yeet);
         maxYeetView = findViewById(R.id.maxYeet);
-        /*xValue = findViewById(R.id.xValue);
-        yValue = findViewById(R.id.yValue);
-        zValue = findViewById(R.id.zValue);
-        wX=  findViewById(R.id.wX);
-        wY=  findViewById(R.id.wY);
-        wZ=  findViewById(R.id.wZ); */
         wN=  findViewById(R.id.wN);
         prox = findViewById(R.id.prox);
         story = findViewById(R.id.story);
@@ -183,7 +140,10 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         page = loadQuests("demo.txt");
         story.setText(page[level].story);
         quest_button.setText(page[level].reqString);
-        //accelerometer sensor airtime
+        loseSound = MediaPlayer.create(this, R.raw.bad);
+        winSound = MediaPlayer.create(this, R.raw.good);
+
+        //set up sensors
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSensorManager.registerListener(this, senAccelerometer , SensorManager.SENSOR_DELAY_FASTEST);
@@ -196,8 +156,6 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         senGyro = gyroSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         gyroSensorManager.registerListener(this, senGyro , SensorManager.SENSOR_DELAY_GAME);
 
-        //add one for rotation when it's time
-
     }
 
     @Override
@@ -209,13 +167,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             y = sensorEvent.values[1];
             z = sensorEvent.values[2];
             yeet = x*x+y*y+z*z;
+
             if (yeet > maxYeet){
                 maxYeet = yeet;
                 maxYeetView.setText("max yeet: " + maxYeet);}
 
-            //xValue.setText("aX: " + x);
-            //yValue.setText("aY: " + y);
-            //zValue.setText("aZ: " + z);
             yeetView.setText("yeet: " + (int) yeet);
 
 
@@ -235,7 +191,6 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                     maxYeet = 0;
 
                     lastThrow = new Throw(a, faceDown, lastThrowMaxYeet, twirl);
-
                     if (a > best){
                         best = a;
                         best_airtime.setText("best airtime in session: " + best +" ms");
@@ -248,11 +203,13 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                         airtime.setText("most recent airtime: " + a + " ms");
                     }
                     if (q > 0 && a > 55) {
-                        if (page[level].attempt(lastThrow)) {//check if throw meets criteri
+                        if (page[level].attempt(lastThrow)) {//check if throw meets criteria
+                            winSound.start();
                             level = page[level].succPage;
                             view.setBackgroundResource(R.color.green);
                             toggleButton(quest_button);
                         }else {
+                            loseSound.start();
                             level = page[level].failPage;
                             view.setBackgroundResource(R.color.red);
                             toggleButton(quest_button);
@@ -283,6 +240,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             gZ = sensorEvent.values[2];
             gN0 = gN;
             gN = gX*gX + gY*gY + gZ*gZ;
+
             //spinning throw detection
             if (spinThrown(gN0, gN) && !up){
                 t0 = System.currentTimeMillis();
@@ -291,12 +249,6 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                 view.setBackgroundResource(R.color.colorPrimary);
                 up = true;
             }
-
-            //wX.setText("wX: " + sensorEvent.values[0]);
-            //wY.setText("wY: " + sensorEvent.values[1]);
-            //wZ.setText("wZ: " + sensorEvent.values[2]);
-            //if (gN > 0.01){ wN.setText("twirl: " + gN);}
-            //else{wN.setText("twirl: 0" );}
         }
     }
 
@@ -339,35 +291,24 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         int succPage, failPage, fDReq;
         float aMax, aMin, tMax, tMin, yMin, yMax;
 
-
-        Quest(String questStr, int succPage, int failPage, int fDReq,
-              float aMin, float aMax,
-              float tMin, float tMax,
-              float yMin, float yMax){
-
-            String s[] = questStr.split("#");
+        Quest(String[] s){
             this.story = s[0];
             this.reqString = s[1];
-            this.succPage = succPage;
-            this.failPage = failPage;
-            this.aMax = aMax;
-            this.aMin = aMin;
-            this.tMin = tMin;
-            this.tMax = tMax;
-            this.yMin = yMin;
-            this.yMax = yMax;
-            this.fDReq = fDReq;
+            this.succPage = Integer.parseInt(s[2]);
+            this.failPage = Integer.parseInt(s[3]);
+            this.fDReq = Integer.parseInt(s[5]);
+            this.aMin = Float.parseFloat(s[7]);
+            this.aMax = Float.parseFloat(s[9]);
+            this.tMin = Float.parseFloat(s[15]);
+            this.tMax = Float.parseFloat(s[17]);
+            this.yMin = Float.parseFloat(s[11]);
+            this.yMax = Float.parseFloat(s[13]);
         }
         boolean attempt(Throw t){
-
-            if ((t.maxYeet < this.yMin || t.maxYeet > this.yMax) ||
-                (t.a < this.aMin || t.a > this.aMax) ||
-                (t.twirl < this.tMin || t.twirl >this.tMax) ||
-                (fDReq == 1 && t.fD) || (fDReq == 0 && !t.fD)
-            )
-            { return false; }
-
-            else return true;
+            return (!(t.maxYeet < this.yMin) && !(t.maxYeet > this.yMax)) && //yeet in range
+                    (!(t.a < this.aMin) && !(t.a > this.aMax)) && //airtime in range
+                    (!(t.twirl < this.tMin) && !(t.twirl > this.tMax)) && //twirl in range
+                    (fDReq != 1 || !t.fD) && (fDReq != 0 || t.fD); //faceup correct or a non-issue
         }
     }
 
