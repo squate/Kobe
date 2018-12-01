@@ -150,7 +150,8 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
                 prox.setText("face-up");
                 faceDown = false;
             }
-        }if (mySensor.getType() == Sensor.TYPE_GYROSCOPE){
+        }
+        if (mySensor.getType() == Sensor.TYPE_GYROSCOPE){
             gX = sensorEvent.values[0];
             gY = sensorEvent.values[1];
             gZ = sensorEvent.values[2];

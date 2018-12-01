@@ -23,10 +23,12 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
     private Sensor senProximity;
     private Sensor senGyro;
     //private Sensor senGame;
-    float x, y, z, t0;
-    int streak;
+    float x, y, z;
+    long t0, t1, best, a = 0;
+    public int streak;
     boolean up = false;
-    TextView xvalue;
+    boolean faceDown = false;
+    TextView xvalue, bestAirtime, recentAirtime, proxLast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,9 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
 
         }
         xvalue = findViewById(R.id.textView13);
+        bestAirtime = findViewById(R.id.bestAirtimeText);
+        recentAirtime = findViewById(R.id.recentAirtimeText);
+        proxLast = findViewById(R.id.proxLastText);
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -78,9 +83,43 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
                 t0 = System.currentTimeMillis();
                 up = true;
                 //TODO: this isn't incrementing past 1
-                streak++;
-                xvalue.setText("Streak" + streak);
+                //streak++;
+                //xvalue.setText("Streak" + streak);
 
+            }
+            if (up){
+                if (landed(x,y,z) /*&& !spinThrown(gN0,gN)*/) {
+                    t1 = System.currentTimeMillis();
+                    a = t1-t0;
+                    if (a > 100){
+                        streak++;
+                        xvalue.setText("Streak" + streak);
+                    }
+                    if (a > best){
+                        best = a;
+                        bestAirtime.setText("best airtime in session: " + best +" ms");
+                    }
+                    if (faceDown)
+                        proxLast.setText("last landing: face-down");
+                    else
+                        proxLast.setText("last landing: face-up");
+                    if (a >= 30) {
+                        recentAirtime.setText("most recent airtime: " + a + " ms");
+                    }
+                    up = false;
+                }
+
+            }
+
+
+        }
+        if (mySensor.getType() == Sensor.TYPE_PROXIMITY && !up){
+            if (sensorEvent.values[0] < senProximity.getMaximumRange()) {
+                // Detected something nearby
+                faceDown = true;
+            } else {
+                // Nothing is nearby
+                faceDown = false;
             }
         }
 
@@ -90,6 +129,11 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
     // (if phone is probably in free-fall)
     public boolean thrown(float x, float y, float z) {
         return ((x * x + y * y + z * z) < 2);
+    }
+    //if magnitude of accelerometer vector is close enough to 9.8
+    //(if phone is probably at rest)
+    public boolean landed(float x, float y, float z){
+        return((x*x+y*y+z*z) >(94));
     }
 
     @Override
@@ -106,7 +150,7 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
 
     protected void onResume() {
         super.onResume();
-        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         proxSensorManager.registerListener(this, senProximity, SensorManager.SENSOR_DELAY_FASTEST);
         gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
     }
