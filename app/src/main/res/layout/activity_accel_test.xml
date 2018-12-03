@@ -8,53 +8,8 @@
     android:padding="30sp"
     tools:context=".AccelTestActivity">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/yeet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
-    <TextView
-        android:id="@+id/maxYeet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
-
-   <!-- <TextView
-        android:id="@+id/xValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
-
-    <TextView
-        android:id="@+id/yValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
-
-    <TextView
-        android:id="@+id/zValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
-    <TextView
-        android:id="@+id/wX"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
-
-    <TextView
-        android:id="@+id/wY"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
-
-    <TextView
-        android:id="@+id/wZ"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" /> -->
-    <TextView
-        android:id="@+id/wN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white" />
@@ -63,18 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white" />
-
     <TextView
-        android:id="@+id/prox_last"
+        android:id="@+id/level"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white" />
-
-    <TextView
-        android:id="@+id/airtime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
+     -->
 
     <TextView
         android:id="@+id/best_airtime"
@@ -82,21 +31,59 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white" />
     <TextView
-        android:id="@+id/pose"
+        android:id="@+id/story"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textSize="24dp" />
 
-    <TextView
-        android:id="@+id/level"
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white" />
+        android:layout_height="18dp" />
 
     <Button
         android:id="@+id/quest1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="quest1"
+        android:onClick="toggleButton"
         android:text="@string/q1" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Last Throw:"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/maxYeet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:ignore="RtlHardcoded" />
+
+    <TextView
+        android:id="@+id/airtime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/wN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/prox_last"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
 </LinearLayout>
