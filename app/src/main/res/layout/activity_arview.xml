@@ -39,5 +39,13 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@android:drawable/ic_menu_camera" />
 
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Streak"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="427dp" />
+
 
 </android.support.constraint.ConstraintLayout>

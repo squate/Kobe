@@ -26,7 +26,7 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
     //private Sensor senGame;
     float x, y, z;
     long t0, t1, best, a = 0;
-    public int streak;
+    public static int streak;
     boolean up = false;
     boolean faceDown = false;
     TextView xvalue, bestAirtime, recentAirtime, proxLast;
