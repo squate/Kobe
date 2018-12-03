@@ -2,16 +2,21 @@ package com.moonsplain.kobe;
 
 import android.content.Context;
 import android.hardware.Sensor;
-
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;// keep, just in case
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.System;
+
 
 //TODO: add function to detect rotational throws
 public class AccelTestActivity extends Activity implements SensorEventListener {
@@ -19,29 +24,29 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     private SensorManager senSensorManager;
     private SensorManager proxSensorManager;
     private SensorManager gyroSensorManager;
-    //private SensorManager rotSensorManager;
     private Sensor senAccelerometer;
     private Sensor senProximity;
     private Sensor senGyro;
-    //private Sensor senRot;
     boolean up = false;
     boolean faceDown = false;
     long t0, t1, a, best = 0;
     float x, y, z, gX, gY, gZ, yeet, maxYeet, lastThrowMaxYeet;
-    Throw[] throwsSoFar;
     Throw lastThrow;
-    float gN, gN0 = 0;
-    int level = 1; int q = 0;
-    private static final String TAG = "AccelTestActivity";
-
+    float gN, gN0, twirl= 0;
+    int level = 0; int q = -1;
+    public Quest[] page;
+    MediaPlayer loseSound;
+    MediaPlayer winSound;
     TextView
-            yeetView, maxYeetView,
-            //xValue, yValue, zValue,
-            //wX, wY, wZ,
-            wN, airtime, best_airtime, prox, prox_last, levelView;
+            //yeetView, levelView,prox,
+            maxYeetView,
+            wN, airtime, best_airtime,  prox_last,story;
 
     Button quest_button;
 
+
+
+    //FUNCTIONS
     //if magnitude of accelerometer vector is close enough to zero
     // (if phone is probably in free-fall)
     public boolean thrown(float yeet) {
@@ -52,6 +57,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     public boolean spinThrown(float wN0, float wN1){
         return (  ((wN1-wN0)/wN0 < .1)  &&  (wN1 > 100));
     }
+
     //if magnitude of accelerometer vector is close enough to 9.8
     //(if phone is probably at rest)
     //TODO: update so this can override hand jitter to filter carries
@@ -59,82 +65,83 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         return(yeet > 94);
     }
 
-    //here's where we have the conditions for successful quests
-    public boolean checkQuest(int level, Throw t){
-        //ALL QUEST CONDITIONS HERE
-        switch (level) {
-            //level 1: the contract is sealed
-            case 1: return (t.a >= 666);
-
-            //level 2 quest: believe in yourself
-            case 2: return (t.a >= 1000);
-
-            //careful now!
-            case 3: return (t.a >= 1500);
-
-            //go to church, or outside
-            case 4: return (t.a >= 2000);
-
-            default:
-                view.setBackgroundResource(R.color.colorAccent);
-                break;
-
-        }return false;
-    }
-    public int setQuest(int level){
-        if (level == 1){
-            return R.string.q1;
-        }if (level == 2){
-            return R.string.q2;
-        }if (level == 3){
-            return R.string.q3;
-        }if (level == 4){
-            return R.string.q4;
-        }else{return R.string.done;}
-    }
-    public void quest1(View view){
+    //TODO: if we have time, implement muliple option system
+    public void toggleButton(View view){
         if (q == 0){
             quest_button.setBackgroundResource(R.color.colorPrimary);
             quest_button.setTextColor(getColor(R.color.colorPrimaryDark));
             q = 1;
         }else{
-            q = 0;
             quest_button.setBackgroundResource(R.color.colorPrimaryDark);
             quest_button.setTextColor(getColor(R.color.colorPrimary));
-
-        }return;
+            q = 0;
+        }
     }
 
+    //load quests into page[] array
+    public Quest[] loadQuests(String fileName){
+        String questsRaw = "";
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(
+                    new InputStreamReader(getAssets().open(fileName), "UTF-8"));
+            // do reading, usually loop until end of file reading
+            String mLine;
+            while ((mLine = reader.readLine()) != null) {
+                questsRaw += mLine;
+            }
+        } catch (IOException e) {
+            //log the exception
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    //log the exception
+                }
+            }
+        }
+
+        String[] pages = questsRaw.split("~");
+        Quest[] quests = new Quest[pages.length];
+
+        String[] cD;
+        for (int i = 0; i < pages.length; i++){
+            cD = pages[i].split("%");
+            quests[i] = new Quest(cD);
+        }
+        return quests;
+    }
+
+    //pretty much main below here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accel_test);
-
         view = this.getWindow().getDecorView();
-        view.setBackgroundResource(R.color.colorAccent);
-
-        yeetView = findViewById(R.id.yeet);
+        view.setBackgroundResource(R.color.colorPrimary);
+        //yeetView = findViewById(R.id.yeet);
         maxYeetView = findViewById(R.id.maxYeet);
-        /*xValue = findViewById(R.id.xValue);
-        yValue = findViewById(R.id.yValue);
-        zValue = findViewById(R.id.zValue);
-        wX=  findViewById(R.id.wX);
-        wY=  findViewById(R.id.wY);
-        wZ=  findViewById(R.id.wZ); */
         wN=  findViewById(R.id.wN);
-        prox = findViewById(R.id.prox);
+        //prox = findViewById(R.id.prox);
+        story = findViewById(R.id.story);
 
         prox_last = findViewById(R.id.prox_last);
         prox_last.setText("most recent landing: none");
 
         airtime = findViewById(R.id.airtime);
         best_airtime = findViewById(R.id.best_airtime);
-        levelView = findViewById(R.id.level);
-        levelView.setText("level: " + level);
+        //levelView = findViewById(R.id.level);
+        //levelView.setText("level: " + level);
+
         quest_button = findViewById(R.id.quest1);
+        page = loadQuests("demo.txt");
+        story.setText(page[level].story);
+        quest_button.setText(page[level].reqString);
+        loseSound = MediaPlayer.create(this, R.raw.bad);
+        winSound = MediaPlayer.create(this, R.raw.good);
 
-
-        //accelerometer sensor airtime
+        //set up sensors
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSensorManager.registerListener(this, senAccelerometer , SensorManager.SENSOR_DELAY_FASTEST);
@@ -147,8 +154,6 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         senGyro = gyroSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         gyroSensorManager.registerListener(this, senGyro , SensorManager.SENSOR_DELAY_GAME);
 
-        //add one for rotation when it's time
-
     }
 
     @Override
@@ -160,68 +165,69 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             y = sensorEvent.values[1];
             z = sensorEvent.values[2];
             yeet = x*x+y*y+z*z;
+
             if (yeet > maxYeet){
                 maxYeet = yeet;
-                maxYeetView.setText("max yeet: " + maxYeet);}
+                //maxYeetView.setText("max yeet: " + maxYeet);
+            }
 
-            //xValue.setText("aX: " + x);
-            //yValue.setText("aY: " + y);
-            //zValue.setText("aZ: " + z);
-            yeetView.setText("yeet: " + yeet);
+            //yeetView.setText("yeet: " + (int) yeet);
 
 
             if (thrown(yeet) && !up){
                 t0 = System.currentTimeMillis();
                 up = true;
-                view.setBackgroundResource(R.color.colorPrimary);
+                if (!spinThrown(gN, gN0)){twirl = 0;}
+                wN.setText("twirl: " + (int)twirl);
+                view.setBackgroundResource(R.color.colorAccent);
             }
 
-            if (up){ //phone is in the air
-                if (landed(yeet) && !spinThrown(gN0,gN)) {
-                    t1 = System.currentTimeMillis();
-                    a = t1-t0;
-                    lastThrowMaxYeet = maxYeet;
-                    maxYeet = 0;
+            if (up && landed(yeet) && !spinThrown(gN0,gN)){ //phone is in the air
+                t1 = System.currentTimeMillis();
+                a = t1-t0;
+                lastThrowMaxYeet = maxYeet;
+                maxYeetView.setText("max yeet: " + (int)lastThrowMaxYeet);
+                maxYeet = 0;
 
-                    lastThrow = new Throw(a, faceDown, lastThrowMaxYeet, gN);
-
-                    if (a > best){
-                        best = a;
-                        best_airtime.setText("best airtime in session: " + best +" ms");
-                    }
-                    if (faceDown)
-                        prox_last.setText("last landing: face-down");
-                    else
-                        prox_last.setText("last landing: face-up");
-                    if (a >= 70) {
-                        airtime.setText("most recent airtime: " + a + " ms");
-                    }
-                    if (q > 0 && a > 70) {
-                        if (checkQuest(level, lastThrow)) {
-                            view.setBackgroundResource(R.color.green);
-                            level++;
-                            levelView.setText("level: " + level);
-                            quest_button.setText(setQuest(level));
-                            quest1(quest_button);
-                        } else {
-                            view.setBackgroundResource(R.color.red);
-                        }
-                    }else{
-                        view.setBackgroundResource(R.color.colorAccent);
-                    }
-
-                    up = false;
+                lastThrow = new Throw(a, faceDown, lastThrowMaxYeet, twirl, gZ);
+                if (a > best){
+                    best = a;
+                    best_airtime.setText("best airtime in session: " + best +" ms");
                 }
-
+                if (faceDown){
+                    prox_last.setText("face-down");
+                } else {
+                    prox_last.setText("face-up");
+                } if (a >= 70) {
+                    airtime.setText("airtime: " + a + " ms"); }
+                if (q > 0 && a > 55) {
+                    if (page[level].attempt(lastThrow)) {//check if throw meets criteria
+                        winSound.start();
+                        level = page[level].succPage;
+                        view.setBackgroundResource(R.color.green);
+                        toggleButton(quest_button);
+                    }else {
+                        loseSound.start();
+                        level = page[level].failPage;
+                        view.setBackgroundResource(R.color.red);
+                        toggleButton(quest_button);
+                    }
+                    //levelView.setText("you are on page: " + level);
+                    story.setText(page[level].story);
+                    quest_button.setText(page[level].reqString);
+                }else{
+                    view.setBackgroundResource(R.color.colorPrimary);
+                }
+                up = false;
             }
         }if (mySensor.getType() == Sensor.TYPE_PROXIMITY && !up){
             if (sensorEvent.values[0] < senProximity.getMaximumRange()) {
-                // Detected something nearby
-                prox.setText("face-down");
+                // Detected something /
+                //prox.setText("face-down");
                 faceDown = true;
             } else {
                 // Nothing is nearby
-                prox.setText("face-up");
+                //prox.setText("face-up");
                 faceDown = false;
             }
         }if (mySensor.getType() == Sensor.TYPE_GYROSCOPE){
@@ -234,15 +240,11 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
             //spinning throw detection
             if (spinThrown(gN0, gN) && !up){
                 t0 = System.currentTimeMillis();
-                view.setBackgroundResource(R.color.colorPrimary);
+                twirl = gN;
+                wN.setText("twirl: " + (int)twirl);
+                view.setBackgroundResource(R.color.colorAccent);
                 up = true;
             }
-
-            //wX.setText("wX: " + sensorEvent.values[0]);
-            //wY.setText("wY: " + sensorEvent.values[1]);
-            //wZ.setText("wZ: " + sensorEvent.values[2]);
-            if (gN > 0.01){ wN.setText("twirl: " + gN);}
-            else{wN.setText("twirl: 0" );}
         }
     }
 
@@ -266,18 +268,45 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
     }
 
 
-    private class Throw{
+    public class Throw {
         long a;
         boolean fD;
         float maxYeet; //normal of the accelerometer vector
         float twirl; //normal of the gyroscope vector
-
-        Throw(long a, boolean fD, float maxYeet, float twirl){
+        boolean frisbee;
+        Throw(long a, boolean fD, float maxYeet, float twirl, float frisbee) {
             this.a = a;
             this.fD = fD;
             this.maxYeet = maxYeet;
             this.twirl = twirl;
         }
     }
+
+    public class Quest{
+        String story, reqString;
+        int succPage, failPage, fDReq;
+        float aMax, aMin, tMax, tMin, yMin, yMax;
+
+        Quest(String[] s){
+            this.story = s[0];
+            this.reqString = s[1];
+            this.succPage = Integer.parseInt(s[2]);
+            this.failPage = Integer.parseInt(s[3]);
+            this.fDReq = Integer.parseInt(s[5]);
+            this.aMin = Float.parseFloat(s[7]);
+            this.aMax = Float.parseFloat(s[9]);
+            this.tMin = Float.parseFloat(s[15]);
+            this.tMax = Float.parseFloat(s[17]);
+            this.yMin = Float.parseFloat(s[11]);
+            this.yMax = Float.parseFloat(s[13]);
+        }
+        boolean attempt(Throw t){
+            return (!(t.maxYeet < this.yMin) && !(t.maxYeet > this.yMax)) && //yeet in range
+                    (!(t.a < this.aMin) && !(t.a > this.aMax)) && //airtime in range
+                    (!(t.twirl < this.tMin) && !(t.twirl > this.tMax)) && //twirl in range
+                    (fDReq != 1 || !t.fD) && (fDReq != 0 || t.fD); //faceup correct or a non-issue
+        }
+    }
+
 }
 

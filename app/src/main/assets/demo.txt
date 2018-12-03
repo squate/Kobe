@@ -1,0 +1,16 @@
+0: You've been caught! You wake up hanging upside-down from cold chains around your ankles.%Wiggle Free (twirl > 400, 300 < a <400)%1%0%
+    fd  %-1% aMin  %300%   aMax  %400 % yeetMin %0% yeetMax %99999% twirlMin %0   %  twirlMax %9999999~
+1: A leg slips free. An armed guard shuffles past, reading a magazine.%Silently remove other leg (a > 600ms face-up) %2%1%
+    fd  %1% aMin  %600%   aMax  %10000 % yeetMin %0% yeetMax %99999% twirlMin %0   %  twirlMax %9999999~
+2: You are now right-side-up! %Look around(spin throw) %3%2%
+    fd  %-1% aMin  %0%   aMax  %10000% yeetMin %0% yeetMax %99999% twirlMin %400  %  twirlMax %9999999~
+3: You walk up to the door with a stick you found. % start picking the lock (a>300, yeet <1500) %4%3%
+    fd  %-1% aMin  %300%   aMax  %10000% yeetMin %0% yeetMax %1500% twirlMin %0%  twirlMax %9999999~
+4: You the stick enters the keyhole. you can feel pins.  % keep picking the lock (a:300-750, face-down) %5%4%
+    fd  %0% aMin  %300%   aMax  %750% yeetMin %0% yeetMax %99999% twirlMin %0%  twirlMax %9999999~
+5: The lock pops with an audible click. The guard looks up from his magazine,strides towards you, clutching the sword at his side.%Hold your breath (a: 200-300, twirl = 0)%6%5%
+    fd  %-1% aMin  %200%   aMax  %600% yeetMin %0% yeetMax %99999% twirlMin %0%  twirlMax %0~
+6: He sticks his helmeted head through the open door%Snap his neck(a:120-250, yeet > 5000)%7%6%
+    fd  %-1% aMin  %120%   aMax  %250% yeetMin %5000% yeetMax %99999% twirlMin %0%  twirlMax %9999999~
+7: The neck pops with an audible click. The guard slumps to the floor. You are racked with guilt.%Don't let them hear your crying (twirl: 1000-1500)%7%7%
+    fd  %-1% aMin  %0%   aMax  %10000% yeetMin %0% yeetMax %99999% twirlMin %1000%  twirlMax %1500~
