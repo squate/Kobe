@@ -4,21 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    tools:context=".LeaderboardActivity">
+    android:background="@color/darkGray"
+    tools:context=".LeaderboardActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="0dp"
-        android:layout_height="99dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="359dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="53dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="95dp"
         android:fontFamily="@font/titillium_web_extralight"
         android:text="Leaderboard"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="65sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/lightGray"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/streakView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/streakView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="74dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="335dp"
+        android:text="Best Streak: 0"
+        android:textColor="@color/lightGray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/airtimeView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/airtimeView"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="80dp"
+        android:text="Best Airtime: 0"
+        android:textColor="@color/lightGray"
+        app:layout_constraintBaseline_toBaselineOf="@+id/streakView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/streakView" />
 </android.support.constraint.ConstraintLayout>

@@ -21,10 +21,7 @@ public class MenuActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LeaderboardActivity.class);
         startActivity(intent);
     }
-    public void openLogIn(View view){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
+
     public void openAccel(View view){
         Intent intent = new Intent(this, AccelTestActivity.class);
         startActivity(intent);

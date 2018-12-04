@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.PixelCopy;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.ar.core.Anchor;
@@ -50,6 +51,8 @@ public class ARViewActivity extends AppCompatActivity {
     public static Anchor targetAnchor;
 
     private boolean targetActive;
+    TextView streakView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,8 @@ public class ARViewActivity extends AppCompatActivity {
         initializeButton();
 
         findViewById(R.id.floatingActionButton).setOnClickListener(view -> takePhoto());
+        streakView = findViewById(R.id.textView14);
+        streakView.setText("Streak: " + ViewPhotoActivity.streak);
     }
 
     private void onUpdate() {

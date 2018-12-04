@@ -56,9 +56,6 @@
             android:name=".MenuActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".LoginActivity"
-            android:parentActivityName=".MenuActivity" />
-        <activity
             android:name=".AccelTestActivity"
             android:label="@string/title_activity_accel_test"
             android:parentActivityName=".MenuActivity"

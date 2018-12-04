@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:background="@color/darkGray"
     android:minHeight="250dp"
     
-    tools:background="?attr/colorAccent"
+    tools:background="?attr/colorPrimary"
     tools:context=".HelpActivity"
     tools:layout_editor_absoluteY="25dp">
 
@@ -19,7 +19,7 @@
         android:layout_marginTop="19dp"
         android:layout_marginEnd="17dp"
         android:layout_marginBottom="103dp"
-        android:background="@color/colorAccent"
+        android:background="@color/darkGray"
         android:fontFamily="@font/titillium_web_extralight"
         android:text="Instructions"
         android:textAlignment="center"
@@ -40,7 +40,7 @@
         android:layout_marginTop="11dp"
         android:layout_marginEnd="32dp"
         android:text='1. Once in "Throw Mode," use your phone to look around until it is able to identify planes.'
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/lightGray"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
         android:layout_marginEnd="35dp"
         android:layout_marginBottom="72dp"
         android:text='2. Next, generate a target by clicking the "Generate Target" button.'
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/lightGray"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,8 +69,8 @@
         android:layout_marginTop="171dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="167dp"
-        android:text="3. Once a target appears, aim and throw!"
-        android:textColor="@color/colorPrimaryDark"
+        android:text="3. Once a target appears, press to capture the image and throw your phone!"
+        android:textColor="@color/lightGray"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView10"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,8 +86,8 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="89dp"
-        android:text='4. To view public high scores, select the "Leaderboard" button in the main menu.'
-        android:textColor="@color/colorPrimaryDark"
+        android:text='4. To view your high scores, select the "Leaderboard" button in the main menu.'
+        android:textColor="@color/lightGray"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +103,7 @@
         android:layout_marginBottom="16dp"
         android:text="Contact the Kobe creators with any questions, comments, or concerns at kobe@kobe.com"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/lightGray"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
