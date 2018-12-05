@@ -5,31 +5,26 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.PixelCopy;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.google.ar.core.Anchor;
 import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
+import com.google.ar.core.Pose;
 import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
-import com.google.ar.sceneform.ArSceneView;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
-
+import com.google.ar.core.Camera;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,12 +42,13 @@ public class ARViewActivity extends AppCompatActivity {
     private PointerDrawable pointer = new PointerDrawable();
     private boolean isTracking;
     private boolean isHitting;
-
+    private boolean throwing;
+    private boolean successChanged = false;
+    private int streak = 0;
     public static Anchor targetAnchor;
 
     private boolean targetActive;
     TextView streakView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +66,16 @@ public class ARViewActivity extends AppCompatActivity {
         targetActive = false;
         initializeButton();
 
-        findViewById(R.id.floatingActionButton).setOnClickListener(view -> takePhoto());
+        findViewById(R.id.floatingActionButton).setOnClickListener(view -> enterThrow());
         streakView = findViewById(R.id.textView14);
-        streakView.setText("Streak: " + ViewPhotoActivity.streak);
+        streakView.setText("Streak: "+streak);
     }
 
     private void onUpdate() {
         boolean trackingChanged = updateTracking();
+        if (throwing) {
+            successChanged = updateSuccess();
+        }
         View contentView = findViewById(android.R.id.content);
         if (trackingChanged) {
             if (isTracking) {
@@ -86,7 +85,13 @@ public class ARViewActivity extends AppCompatActivity {
             }
             contentView.invalidate();
         }
-
+        if (successChanged){
+            if (throwing){
+                streak++;
+                throwing = false;
+            }
+            streakView.setText("Streak: "+streak);
+        }
         if (isTracking) {
             boolean hitTestChanged = updateHitTest();
             if (hitTestChanged) {
@@ -95,7 +100,11 @@ public class ARViewActivity extends AppCompatActivity {
             }
         }
     }
-
+    private boolean updateSuccess(){
+        Frame frame = fragment.getArSceneView().getArFrame();
+        Camera c = frame.getCamera();
+        return closeEnough(c.getPose(), targetAnchor.getPose());
+    }
     private boolean updateTracking() {
         Frame frame = fragment.getArSceneView().getArFrame();
         boolean wasTracking = isTracking;
@@ -208,54 +217,23 @@ public class ARViewActivity extends AppCompatActivity {
         }
     }
 
-    private void takePhoto() {
-        final String filename = generateFilename();
-        ArSceneView view = fragment.getArSceneView();
-
-        // Create a bitmap the size of the scene view.
-        final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(),
-                Bitmap.Config.ARGB_8888);
-
-        // Create a handler thread to offload the processing of the image.
-        final HandlerThread handlerThread = new HandlerThread("PixelCopier");
-        handlerThread.start();
-        // Make the request to copy.
-        PixelCopy.request(view, bitmap, (copyResult) -> {
-            if (copyResult == PixelCopy.SUCCESS) {
-                try {
-                    saveBitmapToDisk(bitmap, filename);
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(ARViewActivity.this, e.toString(),
-                            Toast.LENGTH_LONG);
-                    toast.show();
-                    return;
-                }
-                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
-                        "Target locked", Snackbar.LENGTH_LONG);
-                snackbar.setAction("Ready to Throw", v -> {
-                    File photoFile = new File(filename);
-
-                    Uri photoURI = FileProvider.getUriForFile(ARViewActivity.this,
-                            ARViewActivity.this.getPackageName() + ".ar.codelab.name.provider",
-                            photoFile);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, photoURI);
-                    intent.setDataAndType(photoURI, "image/*");
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    startActivity(intent);
-                    String currentPath = photoFile.getAbsolutePath();
-                    Intent intent2 = new Intent(this, ViewPhotoActivity.class);
-                    intent2.setData(Uri.parse(currentPath));
-                    startActivity(intent2);
-
-                });
-                snackbar.show();
-            } else {
-                Toast toast = Toast.makeText(ARViewActivity.this,
-                        "Failed to copyPixels: " + copyResult, Toast.LENGTH_LONG);
-                toast.show();
-            }
-            handlerThread.quitSafely();
-        }, new Handler(handlerThread.getLooper()));
+    private void enterThrow() {
+        throwing = true;
     }
 
+    private boolean closeEnough(Pose cam, Pose targ){
+            float dx = cam.tx() - targ.tx();
+            float dy = cam.ty() - targ.ty();
+            float dz = cam.tz() - targ.tz();
+            double dist = Math.sqrt(dx * dx + dz * dz + dy * dy);
+            double cmDist = ( (( (dist) * 1000)));
+            Log.d("DIST", "d"+cmDist);
+            if (cmDist < 300){
+                //throwing = false;
+                return true;
+            }else{
+                return false;
+            }
+            //streakView.setText(  (int) cmDist  );
+    }
 }
