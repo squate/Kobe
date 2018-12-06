@@ -2,14 +2,11 @@ package com.moonsplain.kobe;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,12 +27,6 @@ import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 import com.google.ar.core.Camera;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -50,7 +41,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
     private boolean hitTarget = false;
     private boolean throwing;
     private boolean successChanged = false;
-    private int streak = 0;
+    private int streak, streakLast = 0;
     public static Anchor targetAnchor;
 
     private boolean targetActive;
@@ -60,7 +51,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
     //private SensorManager gyroSensorManager;
     private Sensor senAccelerometer;
     //private Sensor senGyro;
-    float x, y, z, gX, gY, gZ, gN, gN0, twirl = 0;
+    float x, y, z = 0;
     long t0, t1, best, a = 0;
     boolean up = false;
     //boolean faceDown = false;
@@ -215,30 +206,6 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
 
     }
 
-    /*private String generateFilename() {
-        String date =
-                new SimpleDateFormat("yyyyMMddHHmmss", java.util.Locale.getDefault()).format(new Date());
-        return Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES) + File.separator + "Sceneform/" + date + "_screenshot.jpg";
-    }
-
-    private void saveBitmapToDisk(Bitmap bitmap, String filename) throws IOException {
-
-        File out = new File(filename);
-        if (!out.getParentFile().exists()) {
-            out.getParentFile().mkdirs();
-        }
-        try (FileOutputStream outputStream = new FileOutputStream(filename);
-             ByteArrayOutputStream outputData = new ByteArrayOutputStream()) {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputData);
-            outputData.writeTo(outputStream);
-            outputStream.flush();
-            outputStream.close();
-        } catch (IOException ex) {
-            throw new IOException("Failed to save bitmap to disk", ex);
-        }
-    }*/
-
     private void enterThrow() {
         throwing = true;
     }
@@ -267,12 +234,18 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             z = sensorEvent.values[2];
             if (thrown(x, y, z) && !up) { //phone enters free fall
                 t0 = System.currentTimeMillis();
+                streakLast = streak;
                 up = true;
             }
             if (up) {
                 if (up && landed(x, y, z)){
                     t1 = System.currentTimeMillis();
                     a = t1 - t0;
+                    Log.d("STREAK", "streak:"+ streak +" last: "+ streakLast);
+                    if (streakLast == streak && a > 100){
+                        streak = 0;
+                        streakView.setText("streak: "+streak);
+                    }
                     if (a > best){
                         best = a;
                     }
