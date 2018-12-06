@@ -1,58 +1,60 @@
 package com.moonsplain.kobe;
 
 import android.app.AlertDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.PixelCopy;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.google.ar.core.Anchor;
 import com.google.ar.core.Frame;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
+import com.google.ar.core.Pose;
 import com.google.ar.core.Trackable;
 import com.google.ar.core.TrackingState;
 import com.google.ar.sceneform.AnchorNode;
-import com.google.ar.sceneform.ArSceneView;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import com.google.ar.sceneform.rendering.Renderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.google.ar.core.Camera;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
-public class ARViewActivity extends AppCompatActivity {
+public class ARViewActivity extends AppCompatActivity implements SensorEventListener {
 
     private ArFragment fragment;
 
     private PointerDrawable pointer = new PointerDrawable();
     private boolean isTracking;
     private boolean isHitting;
-
+    private boolean hitTarget = false;
+    private boolean throwing;
+    private boolean successChanged = false;
+    private int streak, streakLast = 0;
     public static Anchor targetAnchor;
 
     private boolean targetActive;
     TextView streakView;
 
+    private SensorManager senSensorManager;
+    //private SensorManager gyroSensorManager;
+    private Sensor senAccelerometer;
+    //private Sensor senGyro;
+    float x, y, z = 0;
+    long t0, t1, best, a = 0;
+    boolean up = false;
+    //boolean faceDown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +72,19 @@ public class ARViewActivity extends AppCompatActivity {
         targetActive = false;
         initializeButton();
 
-        findViewById(R.id.floatingActionButton).setOnClickListener(view -> takePhoto());
+        findViewById(R.id.floatingActionButton).setOnClickListener(view -> enterThrow());
         streakView = findViewById(R.id.textView14);
-        streakView.setText("Streak: " + ViewPhotoActivity.streak);
+        //streakView.setText("Streak: "+streak);
+
+        senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        senSensorManager.registerListener(this, senAccelerometer , SensorManager.SENSOR_DELAY_FASTEST);
+
     }
 
     private void onUpdate() {
         boolean trackingChanged = updateTracking();
+
         View contentView = findViewById(android.R.id.content);
         if (trackingChanged) {
             if (isTracking) {
@@ -86,7 +94,18 @@ public class ARViewActivity extends AppCompatActivity {
             }
             contentView.invalidate();
         }
-
+        //The finicky part
+        if (up ) {
+            if (!hitTarget) {
+                if (updateSuccess()) {
+                    hitTarget = true;
+                    streak++;
+                    streakView.setText("Streak: " + streak);
+                    return;
+                }
+            }//TODO: have version that sets the streak to zero
+        }
+        streakView.setText("Streak: "+streak);
         if (isTracking) {
             boolean hitTestChanged = updateHitTest();
             if (hitTestChanged) {
@@ -95,7 +114,11 @@ public class ARViewActivity extends AppCompatActivity {
             }
         }
     }
-
+    private boolean updateSuccess(){
+        Frame frame = fragment.getArSceneView().getArFrame();
+        Camera c = frame.getCamera();
+        return closeEnough(c.getPose(), targetAnchor.getPose());
+    }
     private boolean updateTracking() {
         Frame frame = fragment.getArSceneView().getArFrame();
         boolean wasTracking = isTracking;
@@ -144,7 +167,6 @@ public class ARViewActivity extends AppCompatActivity {
                         placeObject(fragment, targetAnchor, model);
                         targetActive = true;
                         break;
-
                     }
                 }
             }
@@ -184,78 +206,86 @@ public class ARViewActivity extends AppCompatActivity {
 
     }
 
-    private String generateFilename() {
-        String date =
-                new SimpleDateFormat("yyyyMMddHHmmss", java.util.Locale.getDefault()).format(new Date());
-        return Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES) + File.separator + "Sceneform/" + date + "_screenshot.jpg";
+    private void enterThrow() {
+        throwing = true;
     }
 
-    private void saveBitmapToDisk(Bitmap bitmap, String filename) throws IOException {
-
-        File out = new File(filename);
-        if (!out.getParentFile().exists()) {
-            out.getParentFile().mkdirs();
-        }
-        try (FileOutputStream outputStream = new FileOutputStream(filename);
-             ByteArrayOutputStream outputData = new ByteArrayOutputStream()) {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputData);
-            outputData.writeTo(outputStream);
-            outputStream.flush();
-            outputStream.close();
-        } catch (IOException ex) {
-            throw new IOException("Failed to save bitmap to disk", ex);
-        }
-    }
-
-    private void takePhoto() {
-        final String filename = generateFilename();
-        ArSceneView view = fragment.getArSceneView();
-
-        // Create a bitmap the size of the scene view.
-        final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(),
-                Bitmap.Config.ARGB_8888);
-
-        // Create a handler thread to offload the processing of the image.
-        final HandlerThread handlerThread = new HandlerThread("PixelCopier");
-        handlerThread.start();
-        // Make the request to copy.
-        PixelCopy.request(view, bitmap, (copyResult) -> {
-            if (copyResult == PixelCopy.SUCCESS) {
-                try {
-                    saveBitmapToDisk(bitmap, filename);
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(ARViewActivity.this, e.toString(),
-                            Toast.LENGTH_LONG);
-                    toast.show();
-                    return;
-                }
-                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
-                        "Target locked", Snackbar.LENGTH_LONG);
-                snackbar.setAction("Ready to Throw", v -> {
-                    File photoFile = new File(filename);
-
-                    Uri photoURI = FileProvider.getUriForFile(ARViewActivity.this,
-                            ARViewActivity.this.getPackageName() + ".ar.codelab.name.provider",
-                            photoFile);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, photoURI);
-                    intent.setDataAndType(photoURI, "image/*");
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    startActivity(intent);
-                    String currentPath = photoFile.getAbsolutePath();
-                    Intent intent2 = new Intent(this, ViewPhotoActivity.class);
-                    intent2.setData(Uri.parse(currentPath));
-                    startActivity(intent2);
-
-                });
-                snackbar.show();
-            } else {
-                Toast toast = Toast.makeText(ARViewActivity.this,
-                        "Failed to copyPixels: " + copyResult, Toast.LENGTH_LONG);
-                toast.show();
+    private boolean closeEnough(Pose cam, Pose targ){
+            float dx = cam.tx() - targ.tx();
+            float dy = cam.ty() - targ.ty();
+            float dz = cam.tz() - targ.tz();
+            double dist = Math.sqrt(dx * dx + dz * dz + dy * dy);
+            double cmDist = ( (( (dist) * 1000)));
+            Log.d("DISTANCE", "d"+cmDist);
+            if (cmDist < 300){
+                return true;
+            }else{
+                return false;
             }
-            handlerThread.quitSafely();
-        }, new Handler(handlerThread.getLooper()));
+            //streakView.setText(  (int) cmDist  );
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        Sensor mySensor = sensorEvent.sensor;
+        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            x = sensorEvent.values[0];
+            y = sensorEvent.values[1];
+            z = sensorEvent.values[2];
+            if (thrown(x, y, z) && !up) { //phone enters free fall
+                t0 = System.currentTimeMillis();
+                streakLast = streak;
+                up = true;
+            }
+            if (up) {
+                if (up && landed(x, y, z)){
+                    t1 = System.currentTimeMillis();
+                    a = t1 - t0;
+                    Log.d("STREAK", "streak:"+ streak +" last: "+ streakLast);
+                    if (streakLast == streak && a > 100){
+                        streak = 0;
+                        streakView.setText("streak: "+streak);
+                    }
+                    if (a > best){
+                        best = a;
+                    }
+                    hitTarget = false;
+                    up = false;
+                }
+            }
+        }
+    }
+
+    //if magnitude of accelerometer vector is close enough to zero
+    // (if phone is probably in free-fall)
+    public boolean thrown(float x, float y, float z) {
+        return ((x * x + y * y + z * z) < 2);
+    }
+    //if magnitude of accelerometer vector is close enough to 9.8
+    //(if phone is probably at rest)
+    public boolean landed(float x, float y, float z){
+        return((x*x+y*y+z*z) >(94));
+    }
+
+    //true if the normal vector of the rotational forces is significant and unchanging
+    //public boolean spinThrown(float wN0, float wN1){
+      //  return (  ((wN1-wN0)/wN0 < .1)  &&  (wN1 > 100));
+    //}
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy){
+
+    }
+
+    protected void onPause() {
+        super.onPause();
+        senSensorManager.unregisterListener(this);
+        //gyroSensorManager.unregisterListener(this);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        //gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
+    }
 }
