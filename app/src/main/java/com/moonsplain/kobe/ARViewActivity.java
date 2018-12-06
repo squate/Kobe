@@ -1,8 +1,13 @@
 package com.moonsplain.kobe;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +40,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
-public class ARViewActivity extends AppCompatActivity {
+public class ARViewActivity extends AppCompatActivity implements SensorEventListener {
 
     private ArFragment fragment;
 
@@ -49,6 +54,15 @@ public class ARViewActivity extends AppCompatActivity {
 
     private boolean targetActive;
     TextView streakView;
+
+    private SensorManager senSensorManager;
+    private SensorManager gyroSensorManager;
+    private Sensor senAccelerometer;
+    private Sensor senGyro;
+    float x, y, z, gX, gY, gZ, gN, gN0, twirl = 0;
+    long t0, t1, best, a = 0;
+    boolean up = false;
+    boolean faceDown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +83,11 @@ public class ARViewActivity extends AppCompatActivity {
         findViewById(R.id.floatingActionButton).setOnClickListener(view -> enterThrow());
         streakView = findViewById(R.id.textView14);
         streakView.setText("Streak: "+streak);
+
+        senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        senSensorManager.registerListener(this, senAccelerometer , SensorManager.SENSOR_DELAY_FASTEST);
+
     }
 
     private void onUpdate() {
@@ -193,7 +212,7 @@ public class ARViewActivity extends AppCompatActivity {
 
     }
 
-    private String generateFilename() {
+    /*private String generateFilename() {
         String date =
                 new SimpleDateFormat("yyyyMMddHHmmss", java.util.Locale.getDefault()).format(new Date());
         return Environment.getExternalStoragePublicDirectory(
@@ -215,7 +234,7 @@ public class ARViewActivity extends AppCompatActivity {
         } catch (IOException ex) {
             throw new IOException("Failed to save bitmap to disk", ex);
         }
-    }
+    }*/
 
     private void enterThrow() {
         throwing = true;
@@ -235,5 +254,82 @@ public class ARViewActivity extends AppCompatActivity {
                 return false;
             }
             //streakView.setText(  (int) cmDist  );
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        Sensor mySensor = sensorEvent.sensor;
+        if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            x = sensorEvent.values[0];
+            y = sensorEvent.values[1];
+            z = sensorEvent.values[2];
+            if (thrown(x, y, z) && !up) {
+                t0 = System.currentTimeMillis();
+                up = true;
+            }
+            //TODO: what was the other stuff with gyroscope?
+            if (up) {
+                if (landed(x, y, z) && !spinThrown(gN0,gN)) {
+                    t1 = System.currentTimeMillis();
+                    a = t1 - t0;
+                    if (a > 100) {
+                        //TODO: This is where I incremented streak
+                    }
+                    if (a > best){
+                        best = a;
+                    }
+
+                    up = false;
+                }
+
+            }
+
+
+        }
+        if (mySensor.getType() == Sensor.TYPE_GYROSCOPE){
+            gX = sensorEvent.values[0];
+            gY = sensorEvent.values[1];
+            gZ = sensorEvent.values[2];
+            gN0 = gN;
+            gN = gX*gX + gY*gY + gZ*gZ;
+            if (spinThrown(gN0, gN) && !up){
+                t0 = System.currentTimeMillis();
+                twirl = gN;
+                up = true;
+            }
+        }
+    }
+
+    //if magnitude of accelerometer vector is close enough to zero
+    // (if phone is probably in free-fall)
+    public boolean thrown(float x, float y, float z) {
+        return ((x * x + y * y + z * z) < 2);
+    }
+    //if magnitude of accelerometer vector is close enough to 9.8
+    //(if phone is probably at rest)
+    public boolean landed(float x, float y, float z){
+        return((x*x+y*y+z*z) >(94));
+    }
+
+    //true if the normal vector of the rotational forces is significant and unchanging
+    public boolean spinThrown(float wN0, float wN1){
+        return (  ((wN1-wN0)/wN0 < .1)  &&  (wN1 > 100));
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy){
+
+    }
+
+    protected void onPause() {
+        super.onPause();
+        senSensorManager.unregisterListener(this);
+        gyroSensorManager.unregisterListener(this);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
     }
 }
