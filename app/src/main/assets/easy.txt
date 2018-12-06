@@ -1,0 +1,17 @@
+0: You're hiking with your pup. %Throw him his ball! (twirl < 200, 300 < a <400)%1%0%
+    fd  %-1% aMin  %300%   aMax  %400 % yeetMin %0% yeetMax %99999% twirlMin %0   %  twirlMax %9999999~
+1: Your phone begins to die. %Look for service. (a > 500ms face-up) %2%1%
+    fd  %1% aMin  %500%   aMax  %10000 % yeetMin %0% yeetMax %99999% twirlMin %0   %  twirlMax %9999999~
+2: Where'd your pup go? %Whistle for him(spin throw) %3%2%
+    fd  %-1% aMin  %0%   aMax  %10000% yeetMin %0% yeetMax %99999% twirlMin %300  %  twirlMax %9999999~
+3: Your pup finds you. But the sun is setting % Start running! (a>300, yeet <1500) %4%3%
+    fd  %-1% aMin  %300%   aMax  %10000% yeetMin %0% yeetMax %1500% twirlMin %0%  twirlMax %9999999~
+4: You are both getting hungry %Collect berries (a:300-750, face-down) %5%4%
+    fd  %0% aMin  %300%   aMax  %750% yeetMin %0% yeetMax %99999% twirlMin %0%  twirlMax %9999999~
+5: Your hands are full of berries when you hear stick break. Is it a bear? %Hold your breath (a: 200-300, twirl = 0)%6%5%
+    fd  %-1% aMin  %200%   aMax  %600% yeetMin %0% yeetMax %99999% twirlMin %0%  twirlMax %0~
+6: You have to divert his attention so you can get far, far away. %Throw a huge stone(a:120-250, yeet > 3000)%7%6%
+    fd  %-1% aMin  %120%   aMax  %250% yeetMin %3000% yeetMax %99999% twirlMin %0%  twirlMax %9999999~
+7: You hear the bear meander away in the direction of the stone. %Don't let your dog chase it (twirl: 1000-1500)%7%7%
+    fd  %-1% aMin  %0%   aMax  %10000% yeetMin %0% yeetMax %99999% twirlMin %1000%  twirlMax %1500~
+
