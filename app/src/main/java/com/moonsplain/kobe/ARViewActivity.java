@@ -56,13 +56,13 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
     TextView streakView;
 
     private SensorManager senSensorManager;
-    private SensorManager gyroSensorManager;
+    //private SensorManager gyroSensorManager;
     private Sensor senAccelerometer;
-    private Sensor senGyro;
+    //private Sensor senGyro;
     float x, y, z, gX, gY, gZ, gN, gN0, twirl = 0;
     long t0, t1, best, a = 0;
     boolean up = false;
-    boolean faceDown = false;
+    //boolean faceDown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,9 +267,8 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
                 t0 = System.currentTimeMillis();
                 up = true;
             }
-            //TODO: what was the other stuff with gyroscope?
             if (up) {
-                if (landed(x, y, z) && !spinThrown(gN0,gN)) {
+                if (landed(x, y, z)){
                     t1 = System.currentTimeMillis();
                     a = t1 - t0;
                     if (a > 100) {
@@ -286,7 +285,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
 
 
         }
-        if (mySensor.getType() == Sensor.TYPE_GYROSCOPE){
+        /*if (mySensor.getType() == Sensor.TYPE_GYROSCOPE){
             gX = sensorEvent.values[0];
             gY = sensorEvent.values[1];
             gZ = sensorEvent.values[2];
@@ -297,7 +296,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
                 twirl = gN;
                 up = true;
             }
-        }
+        }*/
     }
 
     //if magnitude of accelerometer vector is close enough to zero
@@ -312,9 +311,9 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
     }
 
     //true if the normal vector of the rotational forces is significant and unchanging
-    public boolean spinThrown(float wN0, float wN1){
-        return (  ((wN1-wN0)/wN0 < .1)  &&  (wN1 > 100));
-    }
+    //public boolean spinThrown(float wN0, float wN1){
+      //  return (  ((wN1-wN0)/wN0 < .1)  &&  (wN1 > 100));
+    //}
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){
@@ -324,12 +323,12 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
     protected void onPause() {
         super.onPause();
         senSensorManager.unregisterListener(this);
-        gyroSensorManager.unregisterListener(this);
+        //gyroSensorManager.unregisterListener(this);
     }
 
     protected void onResume() {
         super.onResume();
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
+        //gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
     }
 }
