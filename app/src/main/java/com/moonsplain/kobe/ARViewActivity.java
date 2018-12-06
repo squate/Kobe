@@ -101,6 +101,8 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
                     hitTarget = true;
                     streak++;
                     streakView.setText("Streak: " + streak);
+                    //targetAnchor.detach();
+                    targetActive = false;
                     return;
                 }
             }//TODO: have version that sets the streak to zero
@@ -217,7 +219,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             double dist = Math.sqrt(dx * dx + dz * dz + dy * dy);
             double cmDist = ( (( (dist) * 1000)));
             Log.d("DISTANCE", "d"+cmDist);
-            if (cmDist < 300){
+            if (cmDist < 1200){
                 return true;
             }else{
                 return false;
