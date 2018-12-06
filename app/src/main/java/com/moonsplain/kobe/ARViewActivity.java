@@ -47,6 +47,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
     private PointerDrawable pointer = new PointerDrawable();
     private boolean isTracking;
     private boolean isHitting;
+    private boolean hitTarget;
     private boolean throwing;
     private boolean successChanged = false;
     private int streak = 0;
@@ -82,7 +83,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
 
         findViewById(R.id.floatingActionButton).setOnClickListener(view -> enterThrow());
         streakView = findViewById(R.id.textView14);
-        streakView.setText("Streak: "+streak);
+        //streakView.setText("Streak: "+streak);
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -92,9 +93,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
 
     private void onUpdate() {
         boolean trackingChanged = updateTracking();
-        if (throwing) {
-            successChanged = updateSuccess();
-        }
+
         View contentView = findViewById(android.R.id.content);
         if (trackingChanged) {
             if (isTracking) {
@@ -104,13 +103,12 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             }
             contentView.invalidate();
         }
-        if (successChanged){
-            if (throwing){
-                streak++;
-                throwing = false;
+        if (up && !hitTarget) {
+            if (updateSuccess()){
+                hitTarget = true;
             }
-            streakView.setText("Streak: "+streak);
         }
+        //streakView.setText("Streak: "+streak);
         if (isTracking) {
             boolean hitTestChanged = updateHitTest();
             if (hitTestChanged) {
@@ -172,7 +170,6 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
                         placeObject(fragment, targetAnchor, model);
                         targetActive = true;
                         break;
-
                     }
                 }
             }
@@ -248,7 +245,6 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             double cmDist = ( (( (dist) * 1000)));
             Log.d("DIST", "d"+cmDist);
             if (cmDist < 300){
-                //throwing = false;
                 return true;
             }else{
                 return false;
@@ -263,40 +259,36 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             x = sensorEvent.values[0];
             y = sensorEvent.values[1];
             z = sensorEvent.values[2];
-            if (thrown(x, y, z) && !up) {
+            if (thrown(x, y, z) && !up) { //phone enters free fall
                 t0 = System.currentTimeMillis();
                 up = true;
             }
             if (up) {
-                if (landed(x, y, z)){
+                if (hitTarget);
+                 {
+                    streak++;
+                    streakView.setText("streak" + streak);
+                    hitTarget = false;
+                    up = false;
+                }
+                hitTarget = false;
+                if (up && landed(x, y, z)){
+                    Log.d("LAND", "made it into the if statement");
                     t1 = System.currentTimeMillis();
                     a = t1 - t0;
-                    if (a > 100) {
-                        //TODO: This is where I incremented streak
+                    //streakView.setText(".");
+                    if (a > 100 && !hitTarget) {
+                        Log.d("LAND", "made it into the if statement");
+                        streak = 0;
+                        streakView.setText("STREAK: "+ streak);
                     }
                     if (a > best){
                         best = a;
                     }
-
                     up = false;
                 }
-
             }
-
-
         }
-        /*if (mySensor.getType() == Sensor.TYPE_GYROSCOPE){
-            gX = sensorEvent.values[0];
-            gY = sensorEvent.values[1];
-            gZ = sensorEvent.values[2];
-            gN0 = gN;
-            gN = gX*gX + gY*gY + gZ*gZ;
-            if (spinThrown(gN0, gN) && !up){
-                t0 = System.currentTimeMillis();
-                twirl = gN;
-                up = true;
-            }
-        }*/
     }
 
     //if magnitude of accelerometer vector is close enough to zero
