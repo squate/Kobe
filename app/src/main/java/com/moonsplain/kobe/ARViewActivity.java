@@ -47,7 +47,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
     private PointerDrawable pointer = new PointerDrawable();
     private boolean isTracking;
     private boolean isHitting;
-    private boolean hitTarget;
+    private boolean hitTarget = false;
     private boolean throwing;
     private boolean successChanged = false;
     private int streak = 0;
@@ -103,12 +103,18 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             }
             contentView.invalidate();
         }
-        if (up && !hitTarget) {
-            if (updateSuccess()){
-                hitTarget = true;
-            }
+        //The finicky part
+        if (up ) {
+            if (!hitTarget) {
+                if (updateSuccess()) {
+                    hitTarget = true;
+                    streak++;
+                    streakView.setText("Streak: " + streak);
+                    return;
+                }
+            }//TODO: have version that sets the streak to zero
         }
-        //streakView.setText("Streak: "+streak);
+        streakView.setText("Streak: "+streak);
         if (isTracking) {
             boolean hitTestChanged = updateHitTest();
             if (hitTestChanged) {
@@ -243,7 +249,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             float dz = cam.tz() - targ.tz();
             double dist = Math.sqrt(dx * dx + dz * dz + dy * dy);
             double cmDist = ( (( (dist) * 1000)));
-            Log.d("DIST", "d"+cmDist);
+            Log.d("DISTANCE", "d"+cmDist);
             if (cmDist < 300){
                 return true;
             }else{
@@ -264,27 +270,13 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
                 up = true;
             }
             if (up) {
-                if (hitTarget);
-                 {
-                    streak++;
-                    streakView.setText("streak" + streak);
-                    hitTarget = false;
-                    up = false;
-                }
-                hitTarget = false;
                 if (up && landed(x, y, z)){
-                    Log.d("LAND", "made it into the if statement");
                     t1 = System.currentTimeMillis();
                     a = t1 - t0;
-                    //streakView.setText(".");
-                    if (a > 100 && !hitTarget) {
-                        Log.d("LAND", "made it into the if statement");
-                        streak = 0;
-                        streakView.setText("STREAK: "+ streak);
-                    }
                     if (a > best){
                         best = a;
                     }
+                    hitTarget = false;
                     up = false;
                 }
             }
