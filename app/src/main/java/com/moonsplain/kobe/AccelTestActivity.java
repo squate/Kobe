@@ -135,7 +135,7 @@ public class AccelTestActivity extends Activity implements SensorEventListener {
         //levelView.setText("level: " + level);
 
         quest_button = findViewById(R.id.quest1);
-        page = loadQuests("easy.txt");
+        page = loadQuests("demo.txt");
         story.setText(page[level].story);
         quest_button.setText(page[level].reqString);
         loseSound = MediaPlayer.create(this, R.raw.bad);
