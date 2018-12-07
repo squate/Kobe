@@ -233,7 +233,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             double dist = Math.sqrt(dx * dx + dz * dz + dy * dy);
             double cmDist = ( (( (dist) * 1000)));
             Log.d("DISTANCE", "d"+cmDist);
-            if (cmDist < 700){
+            if (cmDist < 500){
                 return true;
             }else{
                 return false;
@@ -267,6 +267,8 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
                     }
                     hitTarget = false;
                     up = false;
+                    targetAnchor.detach();
+                    targetActive = false;
                 }
             }
         }
