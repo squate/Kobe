@@ -2,6 +2,7 @@ package com.moonsplain.kobe;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -56,6 +57,11 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
     boolean up = false;
     //boolean faceDown = false;
 
+    public static final String myPref = "Leaderboard preferences";
+    public static final String leaderStreak = "Streak";
+    public static final String leaderProx = "Proximity";
+    public static final String leaderAirtime = "Best Airtime";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,16 +102,19 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
         }
         //The finicky part
         if (up ) {
-            if (!hitTarget) {
-                if (updateSuccess()) {
+            if (!hitTarget && updateSuccess()) {
+                //if (updateSuccess()) {
                     hitTarget = true;
                     streak++;
-                    streakView.setText("Streak: " + streak);
-                    //targetAnchor.detach();
+                    //streakView.setText("Streak: " + streak);
+                    targetAnchor.detach();
                     targetActive = false;
                     return;
-                }
-            }//TODO: have version that sets the streak to zero
+                //}
+            }
+        }
+        if (streak == streakLast+2){
+            streak--;
         }
         streakView.setText("Streak: "+streak);
         if (isTracking) {
@@ -115,6 +124,11 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
                 contentView.invalidate();
             }
         }
+        SharedPreferences pref = getSharedPreferences(myPref, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(leaderStreak, streak);
+        editor.putLong(leaderAirtime, best);
+        editor.commit();
     }
     private boolean updateSuccess(){
         Frame frame = fragment.getArSceneView().getArFrame();
@@ -219,7 +233,7 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             double dist = Math.sqrt(dx * dx + dz * dz + dy * dy);
             double cmDist = ( (( (dist) * 1000)));
             Log.d("DISTANCE", "d"+cmDist);
-            if (cmDist < 1200){
+            if (cmDist < 700){
                 return true;
             }else{
                 return false;

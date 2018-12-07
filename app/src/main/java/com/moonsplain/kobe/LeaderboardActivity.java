@@ -20,8 +20,8 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(myPref, 0);
         //null? instead of not found
-        int leaderStreak = sharedPreferences.getInt(ViewPhotoActivity.leaderStreak, 0);
-        long leaderAirtime = sharedPreferences.getLong(ViewPhotoActivity.leaderAirtime, 0);
+        int leaderStreak = sharedPreferences.getInt(ARViewActivity.leaderStreak, 0);
+        long leaderAirtime = sharedPreferences.getLong(ARViewActivity.leaderAirtime, 0);
 
         strk = findViewById(R.id.streakView);
         air = findViewById(R.id.airtimeView);
