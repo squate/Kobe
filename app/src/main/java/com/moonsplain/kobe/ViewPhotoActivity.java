@@ -51,7 +51,7 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
 
             myImage.setImageBitmap(myBitmap);
 
-            ARViewActivity.targetAnchor.getPose();
+            ThrowMode.targetAnchor.getPose();
 
         }
         xvalue = findViewById(R.id.textView13);

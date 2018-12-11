@@ -19,7 +19,7 @@ import java.lang.System;
 
 
 //TODO: add function to detect rotational throws
-public class AccelTestActivity extends Activity implements SensorEventListener {
+public class KobeQuest extends Activity implements SensorEventListener {
     View view;
     private SensorManager senSensorManager;
     private SensorManager proxSensorManager;

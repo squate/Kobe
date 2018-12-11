@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
-public class ARViewActivity extends AppCompatActivity implements SensorEventListener {
+public class ThrowMode extends AppCompatActivity implements SensorEventListener {
 
     private ArFragment fragment;
 
@@ -100,17 +100,14 @@ public class ARViewActivity extends AppCompatActivity implements SensorEventList
             }
             contentView.invalidate();
         }
-        //The finicky part
         if (up ) {
             if (!hitTarget && updateSuccess()) {
-                //if (updateSuccess()) {
-                    hitTarget = true;
-                    streak++;
-                    //streakView.setText("Streak: " + streak);
-                    targetAnchor.detach();
-                    targetActive = false;
-                    return;
-                //}
+                hitTarget = true;
+                streak++;
+                //streakView.setText("Streak: " + streak);
+                targetAnchor.detach();
+                targetActive = false;
+                return;
             }
         }
         if (streak == streakLast+2){
