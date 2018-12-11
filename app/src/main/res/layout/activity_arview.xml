@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ARViewActivity">
+    tools:context=".ThrowMode">
 
     <fragment
         android:id="@+id/sceneform_fragment"

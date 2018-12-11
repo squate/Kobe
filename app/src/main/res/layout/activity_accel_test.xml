@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="30sp"
-    tools:context=".AccelTestActivity">
+    tools:context=".KobeQuest">
 
     <!--<TextView
         android:id="@+id/yeet"

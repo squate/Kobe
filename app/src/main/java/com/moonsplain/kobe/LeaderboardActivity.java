@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import static com.moonsplain.kobe.ViewPhotoActivity.leaderAirtime;
-import static com.moonsplain.kobe.ViewPhotoActivity.leaderStreak;
 import static com.moonsplain.kobe.ViewPhotoActivity.myPref;
 
 public class LeaderboardActivity extends AppCompatActivity {
@@ -20,8 +18,8 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(myPref, 0);
         //null? instead of not found
-        int leaderStreak = sharedPreferences.getInt(ARViewActivity.leaderStreak, 0);
-        long leaderAirtime = sharedPreferences.getLong(ARViewActivity.leaderAirtime, 0);
+        int leaderStreak = sharedPreferences.getInt(ThrowMode.leaderStreak, 0);
+        long leaderAirtime = sharedPreferences.getLong(ThrowMode.leaderAirtime, 0);
 
         strk = findViewById(R.id.streakView);
         air = findViewById(R.id.airtimeView);
