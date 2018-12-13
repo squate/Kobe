@@ -60,6 +60,7 @@
         android:id="@+id/maxYeet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="yeet: max accelerometer value"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         tools:ignore="RtlHardcoded" />
@@ -68,6 +69,7 @@
         android:id="@+id/airtime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="a: time in the air"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
@@ -76,6 +78,7 @@
         android:id="@+id/wN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="twirl: how hard the phone spins"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
@@ -83,6 +86,7 @@
         android:id="@+id/prox_last"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="how did the phone lanc?"
         android:textColor="@android:color/white"
         android:textSize="18sp" />
 
