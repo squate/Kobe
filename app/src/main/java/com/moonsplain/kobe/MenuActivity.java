@@ -14,19 +14,16 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public void openARView(View view){
-        Intent intent = new Intent(this, ARViewActivity.class);
+        Intent intent = new Intent(this, ThrowMode.class);
         startActivity(intent);
     }
     public void openLeaderboard(View view){
         Intent intent = new Intent(this, LeaderboardActivity.class);
         startActivity(intent);
     }
-    public void openLogIn(View view){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
+
     public void openAccel(View view){
-        Intent intent = new Intent(this, AccelTestActivity.class);
+        Intent intent = new Intent(this, KobeQuest.class);
         startActivity(intent);
     }
 

@@ -1,6 +1,7 @@
 package com.moonsplain.kobe;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
@@ -25,10 +26,14 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
     //private Sensor senGame;
     float x, y, z;
     long t0, t1, best, a = 0;
-    public int streak;
+    public static int streak;
     boolean up = false;
     boolean faceDown = false;
     TextView xvalue, bestAirtime, recentAirtime, proxLast;
+    public static final String myPref = "Leaderboard preferences";
+    public static final String leaderStreak = "Streak";
+    public static final String leaderProx = "Proximity";
+    public static final String leaderAirtime = "Best Airtime";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,7 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
 
             myImage.setImageBitmap(myBitmap);
 
-            ARViewActivity.targetAnchor.getPose();
+            ThrowMode.targetAnchor.getPose();
 
         }
         xvalue = findViewById(R.id.textView13);
@@ -69,6 +74,9 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
         //gameSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         //senGame= gameSensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
         //gameSensorManager.registerListener(this, senGame, SensorManager.SENSOR_DELAY_FASTEST);
+
+        //Context context = ViewPhotoActivity.this;
+        //SharedPreferences sharedPref = getSharedPreferences(myPref, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -122,6 +130,12 @@ public class ViewPhotoActivity extends AppCompatActivity implements SensorEventL
                 faceDown = false;
             }
         }
+        //Context context = ViewPhotoActivity.this;
+        SharedPreferences pref = getSharedPreferences(myPref, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(leaderStreak, streak);
+        editor.putLong(leaderAirtime, best);
+        editor.commit();
 
     }
 
