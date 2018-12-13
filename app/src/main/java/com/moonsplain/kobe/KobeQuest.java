@@ -65,15 +65,15 @@ public class KobeQuest extends Activity implements SensorEventListener {
         return(yeet > 94);
     }
 
-    //TODO: if we have time, implement muliple option system
+    //TODO: if we have time, implement multiple option system
     public void toggleButton(View view){
         if (q == 0){
-            quest_button.setBackgroundResource(R.color.colorPrimary);
+            quest_button.setBackgroundColor(0x0ffffffff);
             quest_button.setTextColor(getColor(R.color.colorPrimaryDark));
             q = 1;
         }else{
             quest_button.setBackgroundResource(R.color.colorPrimaryDark);
-            quest_button.setTextColor(getColor(R.color.colorPrimary));
+            quest_button.setTextColor(0xffffffff);
             q = 0;
         }
     }
