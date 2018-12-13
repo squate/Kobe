@@ -76,8 +76,6 @@
 
         <activity android:name=".HelpActivity"
             android:parentActivityName=".MenuActivity"/>
-        <activity android:name=".ViewPhotoActivity"
-            android:parentActivityName=".ThrowMode"></activity>
     </application>
 
 </manifest>

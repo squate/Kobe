@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import static com.moonsplain.kobe.ViewPhotoActivity.myPref;
+import static com.moonsplain.kobe.ThrowMode.myPref;
 
 public class LeaderboardActivity extends AppCompatActivity {
     //Create textview
