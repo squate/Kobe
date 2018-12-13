@@ -1,3 +1,11 @@
+/*
+PointerDrawable.java
+
+A class that generates a cross-hair pointer in the center of the screen.
+
+Author: Kobe
+ */
+
 package com.moonsplain.kobe;
 
 import android.graphics.Canvas;
