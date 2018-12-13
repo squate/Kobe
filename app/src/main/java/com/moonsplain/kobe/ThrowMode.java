@@ -1,3 +1,7 @@
+/*
+    Author: Kobe
+ */
+
 package com.moonsplain.kobe;
 
 import android.app.AlertDialog;
