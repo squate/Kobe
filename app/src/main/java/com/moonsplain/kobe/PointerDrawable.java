@@ -1,3 +1,11 @@
+/*
+PointerDrawable.java
+
+A class that generates a cross-hair pointer in the center of the screen.
+
+Author: Kobe
+ */
+
 package com.moonsplain.kobe;
 
 import android.graphics.Canvas;
@@ -14,12 +22,12 @@ public class PointerDrawable extends Drawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        float cx = canvas.getWidth()/2;
+        float cx = canvas.getWidth()/2;     //Get width and height of screen.
         float cy = canvas.getHeight()/2;
-        if (enabled) {
+        if (enabled) {      //If a plane is detected, change the pointer to a green circle.
             paint.setColor(Color.GREEN);
             canvas.drawCircle(cx, cy, 10, paint);
-        } else {
+        } else {        //Else, change the pointer to a gray x.
             paint.setColor(Color.GRAY);
             canvas.drawText("X", cx, cy, paint);
         }
@@ -38,13 +46,13 @@ public class PointerDrawable extends Drawable {
     @Override
     public int getOpacity() {
         return 0;
-    }
+    }       //Opacity of pointer is always 0.
 
     public boolean isEnabled() {
         return enabled;
-    }
+    }       //Method to check if enabled boolean is true.
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
+    }       //Method to change state of enable boolean.
 }
