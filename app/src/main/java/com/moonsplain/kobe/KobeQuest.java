@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.System;
 
-
 //TODO: add function to detect rotational throws
 public class KobeQuest extends Activity implements SensorEventListener {
     View view;
@@ -160,12 +159,14 @@ public class KobeQuest extends Activity implements SensorEventListener {
     public void onSensorChanged(SensorEvent sensorEvent) {
         Sensor mySensor = sensorEvent.sensor;
 
+        //when the accelerometer feed is altered
         if (mySensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             x = sensorEvent.values[0];
             y = sensorEvent.values[1];
             z = sensorEvent.values[2];
             yeet = x*x+y*y+z*z;
 
+            //capture max yeet
             if (yeet > maxYeet){
                 maxYeet = yeet;
                 //maxYeetView.setText("max yeet: " + maxYeet);
@@ -173,7 +174,7 @@ public class KobeQuest extends Activity implements SensorEventListener {
 
             //yeetView.setText("yeet: " + (int) yeet);
 
-
+            //if the phone is in free-fall for the first time in a throw
             if (thrown(yeet) && !up){
                 t0 = System.currentTimeMillis();
                 up = true;
@@ -182,45 +183,58 @@ public class KobeQuest extends Activity implements SensorEventListener {
                 view.setBackgroundResource(R.color.colorAccent);
             }
 
+            //when the phone lands
             if (up && landed(yeet) && !spinThrown(gN0,gN)){ //phone is in the air
                 t1 = System.currentTimeMillis();
-                a = t1-t0;
+                a = t1-t0; //capture airtime as a
                 lastThrowMaxYeet = maxYeet;
                 maxYeetView.setText("max yeet: " + (int)lastThrowMaxYeet);
                 maxYeet = 0;
 
+                //save throw as Throw
                 lastThrow = new Throw(a, faceDown, lastThrowMaxYeet, twirl, gZ);
+
+                //check for best airtime
                 if (a > best){
                     best = a;
                     best_airtime.setText("best airtime in session: " + best +" ms");
                 }
+
+                //set textViews to update to most recent throw
                 if (faceDown){
                     prox_last.setText("face-down");
                 } else {
                     prox_last.setText("face-up");
                 } if (a >= 70) {
                     airtime.setText("airtime: " + a + " ms"); }
+
+                //if you're attempting a quest and the phone was properly thrown
                 if (q > 0 && a > 55) {
-                    if (page[level].attempt(lastThrow)) {//check if throw meets criteria
+
+                    if (page[level].attempt(lastThrow)) { //if throw meets criteria of quest
                         winSound.start();
                         level = page[level].succPage;
                         view.setBackgroundResource(R.color.green);
                         toggleButton(quest_button);
-                    }else {
+                    }else { //if your throw doesn't measure up
                         loseSound.start();
                         level = page[level].failPage;
                         view.setBackgroundResource(R.color.red);
                         toggleButton(quest_button);
                     }
-                    //levelView.setText("you are on page: " + level);
                     story.setText(page[level].story);
                     quest_button.setText(page[level].reqString);
+
+                //return to default backdrop
                 }else{
                     view.setBackgroundResource(R.color.colorPrimary);
                 }
                 up = false;
             }
-        }if (mySensor.getType() == Sensor.TYPE_PROXIMITY && !up){
+        }
+
+        //proximity sensor capture
+        if (mySensor.getType() == Sensor.TYPE_PROXIMITY && !up){
             if (sensorEvent.values[0] < senProximity.getMaximumRange()) {
                 // Detected something /
                 //prox.setText("face-down");
@@ -230,11 +244,17 @@ public class KobeQuest extends Activity implements SensorEventListener {
                 //prox.setText("face-up");
                 faceDown = false;
             }
-        }if (mySensor.getType() == Sensor.TYPE_GYROSCOPE){
+        }
+
+        //gyroscope capture
+        if (mySensor.getType() == Sensor.TYPE_GYROSCOPE){
             gX = sensorEvent.values[0];
             gY = sensorEvent.values[1];
             gZ = sensorEvent.values[2];
+
+            //store previous gyrsocope reading
             gN0 = gN;
+            //take the magnitude of the gyroscope's components
             gN = gX*gX + gY*gY + gZ*gZ;
 
             //spinning throw detection
@@ -267,7 +287,7 @@ public class KobeQuest extends Activity implements SensorEventListener {
         gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
-
+    //A set of metrics gathered from the sensors while ap hone is thrown
     public class Throw {
         long a;
         boolean fD;
@@ -282,6 +302,7 @@ public class KobeQuest extends Activity implements SensorEventListener {
         }
     }
 
+    //a set of text and parameteres to which throws are compared
     public class Quest{
         String story, reqString;
         int succPage, failPage, fDReq;
@@ -300,13 +321,11 @@ public class KobeQuest extends Activity implements SensorEventListener {
             this.yMin = Float.parseFloat(s[11]);
             this.yMax = Float.parseFloat(s[13]);
         }
-        boolean attempt(Throw t){
+        boolean attempt(Throw t){ //compare throw and quest data
             return (!(t.maxYeet < this.yMin) && !(t.maxYeet > this.yMax)) && //yeet in range
                     (!(t.a < this.aMin) && !(t.a > this.aMax)) && //airtime in range
                     (!(t.twirl < this.tMin) && !(t.twirl > this.tMax)) && //twirl in range
                     (fDReq != 1 || !t.fD) && (fDReq != 0 || t.fD); //faceup correct or a non-issue
         }
     }
-
 }
-
