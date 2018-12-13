@@ -1,5 +1,5 @@
 # Kobe
-An app where you throw your phone because we said so, please.
+Kobe is an Android application that allows you to throw your phone at an AR generated target overlaid into the real world. It also contains KobeQuest, a text based quest system involving throwing and spinning your phone. Kobe isan app where you throw your phone because we said so, please.
 
 The apk is submitted along with the assignment. you can install it onto an android phone by following these instructions:
 
