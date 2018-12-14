@@ -29,6 +29,7 @@ Method 2: Android Studio
 7. The app should install install and you can now use Kobe!
 
 Some notes:
-AR mode only works on newer phones with x64 cpu architechture.
-
-Kobequest works on everything with an accelerometer and gyroscope.
+AR mode only works on newer phones with x64 cpu architechture. To see if your device is compatible follow this link:
+https://developers.google.com/ar/discover/supported-devices#android_play
+Kobe will NOT work on emulator because the AR mode will not be able to detect planes. You can run it but you will obviously not be able to throw it
+Kobequest works on all devices with an accelerometer and gyroscope.
