@@ -43,7 +43,7 @@ import java.util.concurrent.CompletableFuture;
 
 
 public class ThrowMode extends AppCompatActivity implements SensorEventListener {
-
+    //Instantiate variables
     private ArFragment fragment;
 
     private PointerDrawable pointer = new PointerDrawable();
@@ -59,13 +59,10 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
     TextView streakView;
 
     private SensorManager senSensorManager;
-    //private SensorManager gyroSensorManager;
     private Sensor senAccelerometer;
-    //private Sensor senGyro;
     float x, y, z = 0;
     long t0, t1, best, a = 0;
     boolean up = false;
-    //boolean faceDown = false;
 
     public static final String myPref = "Leaderboard preferences";
     public static final String leaderStreak = "Streak";
@@ -259,23 +256,23 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
             y = sensorEvent.values[1];
             z = sensorEvent.values[2];
             if (thrown(x, y, z) && !up) { //phone enters free fall
-                t0 = System.currentTimeMillis();
-                streakLast = streak;
+                t0 = System.currentTimeMillis();    //get the current time
+                streakLast = streak;                //get the last streak
                 up = true;
             }
             if (up) {
                 if (up && landed(x, y, z)){
-                    t1 = System.currentTimeMillis();
-                    a = t1 - t0;
+                    t1 = System.currentTimeMillis();    //get current time
+                    a = t1 - t0;                        //get airtime
                     Log.d("STREAK", "streak:"+ streak +" last: "+ streakLast);
-                    if (streakLast == streak && a > 100){
-                        streak = 0;
+                    if (streakLast == streak && a > 100){   //if the phone has been thrown but the target
+                        streak = 0;                         //not hit, set streak back to 0
                         streakView.setText("streak: "+streak);
                     }
-                    if (a > best){
+                    if (a > best){              //if you beat your airtime reset it
                         best = a;
                     }
-                    hitTarget = false;
+                    hitTarget = false;          //detach the anchor and remove target
                     up = false;
                     targetAnchor.detach();
                     targetActive = false;
@@ -295,25 +292,19 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
         return((x*x+y*y+z*z) >(94));
     }
 
-    //true if the normal vector of the rotational forces is significant and unchanging
-    //public boolean spinThrown(float wN0, float wN1){
-      //  return (  ((wN1-wN0)/wN0 < .1)  &&  (wN1 > 100));
-    //}
-
+    //Empty method required for sensor use
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy){
 
     }
-
+    //Required method for sensor use
     protected void onPause() {
         super.onPause();
         senSensorManager.unregisterListener(this);
-        //gyroSensorManager.unregisterListener(this);
     }
-
+    //Required method for sensor use
     protected void onResume() {
         super.onResume();
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        //gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
     }
 }
