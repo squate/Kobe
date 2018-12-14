@@ -7,8 +7,8 @@ Method 1: APK
 The APK is submitted along with the assignment. You can install it onto an android phone by following these instructions:
 
 1: Enable developer options on your android
-  How you do this depends on your device. For example, on Samsung phones you navigate to Settings > About Phone
-  > Build Number and tap Build NUmber 7 times
+  How you do this depends on your device. For example, on Samsung phones you navigate to Settings > About Phone >
+  Build Number and tap Build NUmber 7 times
 2: In developer options, check the box for "enable installation from unknown sources"
 3: Download the apk file to your pc
 4: Connect your phone to the PC using a USB cable
