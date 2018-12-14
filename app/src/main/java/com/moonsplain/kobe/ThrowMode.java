@@ -1,3 +1,13 @@
+/*
+ThrowMode.java
+
+The class for the core game of the app. Displays an AR fragment that allows the user to place a
+target on a plane, then throw their device at said target to make their streak increase. Detects
+throw legitimacy and accuracy.
+
+Author: Kobe
+ */
+
 package com.moonsplain.kobe;
 
 import android.app.AlertDialog;
@@ -67,24 +77,25 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arview);
 
-        fragment = (ArFragment)
+        fragment = (ArFragment)     //Display ArFragment
                 getSupportFragmentManager().findFragmentById(R.id.sceneform_fragment);
 
         fragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
-            fragment.onUpdate(frameTime);
+            fragment.onUpdate(frameTime);       //Call onUpdate();
             onUpdate();
         });
 
-        targetActive = false;
-        initializeButton();
+        targetActive = false;       //No target is present at startup.
+        initializeButton();     //Place target generation button.
 
         findViewById(R.id.floatingActionButton).setOnClickListener(view -> enterThrow());
-        streakView = findViewById(R.id.textView14);
+        streakView = findViewById(R.id.textView14);     //Display user's streak of successful throws.
         //streakView.setText("Streak: "+streak);
 
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSensorManager.registerListener(this, senAccelerometer , SensorManager.SENSOR_DELAY_FASTEST);
+        //Set up accelerometer sensor for throw detection.
 
     }
 
@@ -100,20 +111,20 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
             }
             contentView.invalidate();
         }
-        if (up ) {
+        if (up ) {      //If device is in free fall
             if (!hitTarget && updateSuccess()) {
-                hitTarget = true;
-                streak++;
+                hitTarget = true;       //User has hit target.
+                streak++;       //Increment streak.
                 //streakView.setText("Streak: " + streak);
-                targetAnchor.detach();
+                targetAnchor.detach();      //Delete target so that the user may place a new one.
                 targetActive = false;
                 return;
             }
         }
-        if (streak == streakLast+2){
-            streak--;
+        if (streak > streakLast+1){        //Stops a glitch where the streak would increment by 2
+            streak = streakLast+1;         //instead of 1.
         }
-        streakView.setText("Streak: "+streak);
+        streakView.setText("Streak: "+streak);      //Update streak display.
         if (isTracking) {
             boolean hitTestChanged = updateHitTest();
             if (hitTestChanged) {
@@ -123,17 +134,19 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
         }
         SharedPreferences pref = getSharedPreferences(myPref, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt(leaderStreak, streak);
-        editor.putLong(leaderAirtime, best);
+        editor.putInt(leaderStreak, streak);        //Send streak to leaderboard.
+        editor.putLong(leaderAirtime, best);        //Send best airtime to leaderboard.
         editor.commit();
     }
     private boolean updateSuccess(){
         Frame frame = fragment.getArSceneView().getArFrame();
         Camera c = frame.getCamera();
-        return closeEnough(c.getPose(), targetAnchor.getPose());
+        return closeEnough(c.getPose(), targetAnchor.getPose());        //Call closeEnough to detect
+                                                                        //that the device is within
+                                                                        //range of the target.
     }
-    private boolean updateTracking() {
-        Frame frame = fragment.getArSceneView().getArFrame();
+    private boolean updateTracking() {      //Method to detect if camera is tracking the location of
+        Frame frame = fragment.getArSceneView().getArFrame();       //the pointer.
         boolean wasTracking = isTracking;
         isTracking = frame != null &&
                 frame.getCamera().getTrackingState() == TrackingState.TRACKING;
@@ -142,25 +155,25 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
 
     private boolean updateHitTest() {
         Frame frame = fragment.getArSceneView().getArFrame();
-        android.graphics.Point pt = getScreenCenter();
+        android.graphics.Point pt = getScreenCenter();      //Get center of screen.
         List<HitResult> hits;
         boolean wasHitting = isHitting;
         isHitting = false;
         if (frame != null) {
             hits = frame.hitTest(pt.x, pt.y);
-            for (HitResult hit : hits) {
+            for (HitResult hit : hits) {        //If pointer has hit a plane
                 Trackable trackable = hit.getTrackable();
                 if (trackable instanceof Plane &&
                         ((Plane) trackable).isPoseInPolygon(hit.getHitPose())) {
-                    isHitting = true;
+                    isHitting = true;       //Update isHitting.
                     break;
                 }
             }
         }
-        return wasHitting != isHitting;
+        return wasHitting != isHitting;     //Update wasHitting.
     }
 
-    private android.graphics.Point getScreenCenter() {
+    private android.graphics.Point getScreenCenter() {      //Get center point of screen to draw pointer.
         View vw = findViewById(android.R.id.content);
         return new android.graphics.Point(vw.getWidth()/2, vw.getHeight()/2);
     }
@@ -173,12 +186,12 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
             hits = frame.hitTest(pt.x, pt.y);
             for (HitResult hit : hits) {
                 Trackable trackable = hit.getTrackable();
-                if (trackable instanceof Plane &&
+                if (trackable instanceof Plane &&       //If a plane has been detected
                         ((Plane) trackable).isPoseInPolygon(hit.getHitPose())) {
-                    if (targetActive == false) {
-                        targetAnchor = hit.createAnchor();
-                        placeObject(fragment, targetAnchor, model);
-                        targetActive = true;
+                    if (!targetActive) {        //If there are no other targets
+                        targetAnchor = hit.createAnchor();      //Store target anchor in global variable.
+                        placeObject(fragment, targetAnchor, model);     //Place target model.
+                        targetActive = true;        //Stop the user from placing more than one target.
                         break;
                     }
                 }
@@ -188,14 +201,14 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
 
     private void placeObject(ArFragment fragment, Anchor anchor, Uri model) {
         CompletableFuture<Void> renderableFuture =
-                ModelRenderable.builder()
+                ModelRenderable.builder()       //Build the model.
                         .setSource(fragment.getContext(), model)
                         .build()
                         .thenAccept(renderable -> addNodeToScene(fragment, anchor, renderable))
-                        .exceptionally((throwable -> {
+                        .exceptionally((throwable -> {      //Catch builder errors.
                             AlertDialog.Builder builder = new AlertDialog.Builder(this);
                             builder.setMessage(throwable.getMessage())
-                                    .setTitle("Kobe error!");
+                                    .setTitle("Kobe error!");       //Display error message.
                             AlertDialog dialog = builder.create();
                             dialog.show();
                             return null;
@@ -203,37 +216,37 @@ public class ThrowMode extends AppCompatActivity implements SensorEventListener 
     }
 
     private void addNodeToScene(ArFragment fragment, Anchor anchor, Renderable renderable) {
-        AnchorNode anchorNode = new AnchorNode(anchor);
+        AnchorNode anchorNode = new AnchorNode(anchor);     //Set up anchor node.
         TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
-        node.setRenderable(renderable);
+        node.setRenderable(renderable);     //Attach model to node.
         node.setParent(anchorNode);
-        fragment.getArSceneView().getScene().addChild(anchorNode);
+        fragment.getArSceneView().getScene().addChild(anchorNode);      //Add anchor node to scene.
         node.select();
     }
 
     //Button to place target
     private void initializeButton() {
         FloatingActionButton button = findViewById(R.id.floatingActionButton2);
-
         button.setOnClickListener(view -> {addObject(Uri.parse("model.sfb"));});
+        //Set up floating action button to place target in scene.
 
     }
 
     private void enterThrow() {
-        throwing = true;
+        throwing = true;        //User is throwing the device.
     }
 
     private boolean closeEnough(Pose cam, Pose targ){
-            float dx = cam.tx() - targ.tx();
-            float dy = cam.ty() - targ.ty();
+            float dx = cam.tx() - targ.tx();        //Get distance between camera and target on
+            float dy = cam.ty() - targ.ty();        //every axis.
             float dz = cam.tz() - targ.tz();
-            double dist = Math.sqrt(dx * dx + dz * dz + dy * dy);
-            double cmDist = ( (( (dist) * 1000)));
+            double dist = Math.sqrt(dx * dx + dz * dz + dy * dy);       //Get general distance.
+            double cmDist = ( (( (dist) * 1000)));      //Convert distance to centimeters.
             Log.d("DISTANCE", "d"+cmDist);
-            if (cmDist < 500){
-                return true;
+            if (cmDist < 500){      //If the device is within 500 centimeters of the target
+                return true;        //Device is close enough.
             }else{
-                return false;
+                return false;       //Else, device is not close enough.
             }
             //streakView.setText(  (int) cmDist  );
     }
