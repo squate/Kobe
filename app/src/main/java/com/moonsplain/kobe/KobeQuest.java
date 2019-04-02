@@ -32,7 +32,7 @@ public class KobeQuest extends Activity implements SensorEventListener {
     float x, y, z, gX, gY, gZ, yeet, maxYeet, lastThrowMaxYeet;
     Throw lastThrow;
     float gN, gN0, twirl= 0;
-    int level = 0; int q = -1;
+    int level = 0; int q = 0;
     public Quest[] page;
     MediaPlayer loseSound;
     MediaPlayer winSound;
