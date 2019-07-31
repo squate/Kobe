@@ -1,6 +1,8 @@
 package com.moonsplain.kobe;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -8,11 +10,12 @@ import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;// keep, just in case
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.System;
@@ -32,10 +35,11 @@ public class KobeQuest extends Activity implements SensorEventListener {
     float x, y, z, gX, gY, gZ, yeet, maxYeet, lastThrowMaxYeet;
     Throw lastThrow;
     float gN, gN0, twirl= 0;
-    int level = 0; int q = 0;
+    int level = 0; int q = 0; int pack = 1;
     public Quest[] page;
     MediaPlayer loseSound;
     MediaPlayer winSound;
+    ImageView img;
     TextView
             //yeetView, levelView,prox,
             maxYeetView,
@@ -116,25 +120,23 @@ public class KobeQuest extends Activity implements SensorEventListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accel_test);
+        //establish text
+        setContentView(R.layout.activity_kobequest);
         view = this.getWindow().getDecorView();
         view.setBackgroundResource(R.color.colorPrimary);
-        //yeetView = findViewById(R.id.yeet);
+        story = findViewById(R.id.story);
+        prox_last = findViewById(R.id.prox_last);
+        airtime = findViewById(R.id.airtime);
         maxYeetView = findViewById(R.id.maxYeet);
         wN=  findViewById(R.id.wN);
-        //prox = findViewById(R.id.prox);
-        story = findViewById(R.id.story);
-
-        prox_last = findViewById(R.id.prox_last);
-        prox_last.setText("most recent landing: none");
-
-        airtime = findViewById(R.id.airtime);
         best_airtime = findViewById(R.id.best_airtime);
-        //levelView = findViewById(R.id.level);
-        //levelView.setText("level: " + level);
-
         quest_button = findViewById(R.id.quest1);
-        page = loadQuests("demo.txt");
+        img = findViewById(R.id.img);
+
+        //module-dependent stuff
+        page = loadQuests("pack"+pack+"/quests.txt");
+        //set initial image
+        setImage(img, pack, level);
         story.setText(page[level].story);
         quest_button.setText(page[level].reqString);
         loseSound = MediaPlayer.create(this, R.raw.bad);
@@ -179,7 +181,7 @@ public class KobeQuest extends Activity implements SensorEventListener {
                 t0 = System.currentTimeMillis();
                 up = true;
                 if (!spinThrown(gN, gN0)){twirl = 0;}
-                wN.setText("twirl: " + (int)twirl);
+                wN.setText("twirl:\n" + (int)twirl);
                 view.setBackgroundResource(R.color.colorAccent);
             }
 
@@ -188,7 +190,7 @@ public class KobeQuest extends Activity implements SensorEventListener {
                 t1 = System.currentTimeMillis();
                 a = t1-t0; //capture airtime as a
                 lastThrowMaxYeet = maxYeet;
-                maxYeetView.setText("max yeet: " + (int)lastThrowMaxYeet);
+                maxYeetView.setText("yeet:\n" + (int)lastThrowMaxYeet);
                 maxYeet = 0;
 
                 //save throw as Throw
@@ -202,11 +204,11 @@ public class KobeQuest extends Activity implements SensorEventListener {
 
                 //set textViews to update to most recent throw
                 if (faceDown){
-                    prox_last.setText("face-down");
+                    prox_last.setText("tails");
                 } else {
-                    prox_last.setText("face-up");
+                    prox_last.setText("heads");
                 } if (a >= 70) {
-                    airtime.setText("airtime: " + a + " ms"); }
+                    airtime.setText("airtime:\n" + a + " ms"); }
 
                 //if you're attempting a quest and the phone was properly thrown
                 if (q > 0 && a > 55) {
@@ -221,7 +223,8 @@ public class KobeQuest extends Activity implements SensorEventListener {
                         level = page[level].failPage;
                         view.setBackgroundResource(R.color.red);
                         toggleButton(quest_button);
-                    }
+                    }setImage(img, pack, level);
+
                     story.setText(page[level].story);
                     quest_button.setText(page[level].reqString);
 
@@ -237,11 +240,9 @@ public class KobeQuest extends Activity implements SensorEventListener {
         if (mySensor.getType() == Sensor.TYPE_PROXIMITY && !up){
             if (sensorEvent.values[0] < senProximity.getMaximumRange()) {
                 // Detected something /
-                //prox.setText("face-down");
                 faceDown = true;
             } else {
                 // Nothing is nearby
-                //prox.setText("face-up");
                 faceDown = false;
             }
         }
@@ -261,7 +262,7 @@ public class KobeQuest extends Activity implements SensorEventListener {
             if (spinThrown(gN0, gN) && !up){
                 t0 = System.currentTimeMillis();
                 twirl = gN;
-                wN.setText("twirl: " + (int)twirl);
+                wN.setText("twirl:\n" + (int)twirl);
                 view.setBackgroundResource(R.color.colorAccent);
                 up = true;
             }
@@ -286,14 +287,19 @@ public class KobeQuest extends Activity implements SensorEventListener {
         proxSensorManager.registerListener(this, senProximity, SensorManager.SENSOR_DELAY_FASTEST);
         gyroSensorManager.registerListener(this, senGyro, SensorManager.SENSOR_DELAY_FASTEST);
     }
-
+    private void setImage(ImageView img, int pack, int level){
+        Context context = img.getContext();
+        int id = context.getResources().getIdentifier("a_"+level, "drawable", context.getPackageName());
+        img.setImageResource(id);
+        return;
+    }
     //A set of metrics gathered from the sensors while ap hone is thrown
     public class Throw {
         long a;
         boolean fD;
         float maxYeet; //normal of the accelerometer vector
         float twirl; //normal of the gyroscope vector
-        boolean frisbee;
+
         Throw(long a, boolean fD, float maxYeet, float twirl, float frisbee) {
             this.a = a;
             this.fD = fD;

@@ -1,0 +1,31 @@
+0: You've been caught! You wake up hanging upside-down from cold chains around your ankles.%Wiggle Free (twirl > 400, a: 300-400ms)%1%0%
+    fd  %-1% aMin  %300%   aMax  %400 % yeetMin %0% yeetMax %99999% twirlMin %0   %  twirlMax %9999999~
+1: A leg slips free. An armed guard shuffles past, reading a magazine.%Silently remove other leg (a > 600ms, heads) %2%1%
+    fd  %1% aMin  %600%   aMax  %10000 % yeetMin %0% yeetMax %99999% twirlMin %0   %  twirlMax %9999999~
+2: You are now right-side-up! %Look around(spin throw) %3%2%
+    fd  %-1% aMin  %0%   aMax  %10000% yeetMin %0% yeetMax %99999% twirlMin %400  %  twirlMax %9999999~
+3: You walk up to the door with a stick you found. % start picking the lock (a>300, yeet <1500) %4%3%
+    fd  %-1% aMin  %300%   aMax  %10000% yeetMin %0% yeetMax %1500% twirlMin %0%  twirlMax %9999999~
+4: You insert the twig into the keyhole. you can feel pins.  % keep picking the lock (a:300-750, tails) %5%4%
+    fd  %0% aMin  %300%   aMax  %750% yeetMin %0% yeetMax %99999% twirlMin %0%  twirlMax %9999999~
+5: The lock pops with an audible click. The guard looks up from his magazine,strides towards you, clutching the sword at his side.%Hold your breath (a: 200-300ms, twirl = 0)%6%5%
+    fd  %-1% aMin  %200%   aMax  %300% yeetMin %0% yeetMax %99999% twirlMin %0%  twirlMax %0~
+6: He sticks his helmeted head through the open door%Snap his neck (a:120-250, yeet > 5000)%7%6%
+    fd  %-1% aMin  %120%   aMax  %250% yeetMin %5000% yeetMax %99999% twirlMin %0%  twirlMax %9999999~
+7: The neck pops with an audible click. The guard slumps to the floor. You are racked with guilt.%Don't let them hear your crying (twirl: 1000-1500)%8%7%
+    fd  %-1% aMin  %0%   aMax  %10000% yeetMin %0% yeetMax %99999% twirlMin %1000%  twirlMax %1500~
+8: The tears eventually stop. You grab the sword and magazine.%Trudnle down the hallway (throw)%9%8%
+    fd  %-1% aMin  %0%   aMax  %10000% yeetMin %0% yeetMax %99999% twirlMin %0%  twirlMax %9999999~
+9: You hear muffled laughter and clanking as you pass the break room. The guards are playing one of their famous games of "Twister" again.
+    Your brother Horace is locked in the break room closet and kept as a mascot/test subject. You hear him whimper.
+    If you shout something now, they might think you're the warden and fall over each other,%Yell "What's All This Then" (Yeet < 2000, twirl < 666)%10%11%
+    fd  %-1% aMin  %0%   aMax  %10000% yeetMin %2000% yeetMax %99999% twirlMin %666%  twirlMax %9999999~
+10: The guards yelp and spasm into a pile of tangled limbs. You sprint past them to Horace's cell door.%Kick that shit down! (yeet > 3000, a > 1s)%12%11%
+        fd  %-1% aMin  %1000%   aMax  %10000% yeetMin %3000% yeetMax %99999% twirlMin %0%  twirlMax %9999999~
+11: Instead of doing whatever you'd planned on doing, you sneeze. One by one, the guards look up and see you standing there.
+They extricate themselves, grab their swords and enter defense position.%Charge!(yeet > 3000, a > 1s)%13%0%
+        fd  %-1% aMin  %1000%   aMax  %10000% yeetMin %3000% yeetMax %99999% twirlMin %0%  twirlMax %9999999~
+12: The door shatters into tiny pieces and gets everywhere. Horace looks up to see you and beams. Many of his teeth are missing. You toss him your sword. He can take them.%
+Get out of there quick (twirl > 2000, a: 450-500)%14%11%fd%-1% aMin  %450%   aMax  %500% yeetMin %0% yeetMax %99999% twirlMin %2000%  twirlMax %9999999~
+13: You spit on the ground and run full-speed at the guards. %Cleave 'em in twain (twirl > 1000, tails, a < 500)%13%0%
+    fd  %0% aMin  %0%   aMax  %500% yeetMin %0% yeetMax %99999% twirlMin %1000%  twirlMax %9999999~
