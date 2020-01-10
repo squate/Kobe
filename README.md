@@ -1,24 +1,10 @@
 # Kobe
 Kobe is an Android application that allows you to throw your phone at an AR generated target overlaid into the real world. It also contains KobeQuest, a text based quest system involving throwing and spinning your phone. Kobe is an app where you throw your phone because we said so, please.
 
-There are two methods to run the application. We have submitted the APK to Canvas so that if necessary, Android Studio does not need to be downloaded, however we will describe how to run Kobe with Android Studio as well.
+Method 1: Google Play Store
+https://play.google.com/store/apps/details?id=com.moonsplain.kobe
 
-Method 1: APK
-The APK is submitted along with the assignment. You can install it onto an android phone by following these instructions:
-
-1. Enable developer options on your android
-  How you do this depends on your device. For example, on Samsung phones you navigate to Settings > About Phone >
-  Build Number and tap Build NUmber 7 times
-2. In developer options, check the box for "enable installation from unknown sources"
-3. Download the apk file to your pc
-4. Connect your phone to the PC using a USB cable
-5. Navigate to the USB connection options and enable media transfer
-6. Copy the app from the pc, paste into the phone's downloads directory in internal storage
-7. Find the APD in your device's file manager
-8. Click on the APK, click yes on whatever prompts appear
-9. The app is now installed.
-
-Method 2: Android Studio
+Method 2: Android Studio (for phones that can't run the store version, this will get quest mode but not AR mode on your device)
 1. Navigate to https://developer.android.com/studio/ and install the latest version of Android Studio
 3. Download the Master branch from GitHub and save into a directory of your choice.
 2. When you see the Android Studio menu, chose "Open an Existing Android Studio Project"
@@ -31,5 +17,5 @@ Method 2: Android Studio
 Some notes:
 AR mode only works on newer phones with x64 cpu architechture. To see if your device is compatible follow this link:
 https://developers.google.com/ar/discover/supported-devices#android_play
-Kobe will NOT work on emulator because the AR mode will not be able to detect planes. You can run it but you will obviously not be able to throw it
+Kobe will NOT work on emulator because the AR mode will not be able to detect planes. You can run it but you won't be able to throw it, unless you have some sort of way to spoof sensor input, which we don't.
 Kobequest works on all devices with an accelerometer and gyroscope.
